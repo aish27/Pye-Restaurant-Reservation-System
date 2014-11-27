@@ -7,7 +7,6 @@ import java.util.ArrayList;
 //  @ Project : ReservationSystem
 //  @ File Name : AllSeatsInARestaurant.java
 //  @ Date : 11/26/2014
-//  @ Author : Gaurav Desai, Aishwarya Venketeswaran, Aayush Neupane and Ambrin Ali
 //
 //
 /** */
