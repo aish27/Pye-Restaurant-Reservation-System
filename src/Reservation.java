@@ -13,8 +13,6 @@ import java.util.Date;
 //
 
 
-
-
 /** */
 public class Reservation
 {
@@ -25,29 +23,25 @@ public class Reservation
     public Boolean Confirmed;
     
     /** */
-    public int reqTime;
+    private int reqTime;
     
     /** */
-    public Date reqDate;
-    
-    /** */
-    public int RestaurantId;
+    private Date reqDate;
     
     /** */
     public int ConfirmationNumber;
     
     /** */
-    public int PartySize;
+    private int PartySize;
     
     /** */
     public Person CreatedBy;
 
-    public Reservation(int id, Boolean Confirmed, int reqTime, Date reqDate, int RestaurantId, int ConfirmationNumber, int PartySize, Person CreatedBy) {
+    public Reservation(int id, Boolean Confirmed, int reqTime, Date reqDate, int ConfirmationNumber, int PartySize, Person CreatedBy) {
         this.id = id;
         this.Confirmed = Confirmed;
         this.reqTime = reqTime;
         this.reqDate = reqDate;
-        this.RestaurantId = RestaurantId;
         this.ConfirmationNumber = ConfirmationNumber;
         this.PartySize = PartySize;
         this.CreatedBy = CreatedBy;
@@ -56,9 +50,10 @@ public class Reservation
     }
         
     /** */
-    public void setReservation()
+    public void setReservation(Boolean Confirmed, int reqTime, Date reqDate, int RestaurantId, int ConfirmationNumber, int PartySize, Person CreatedBy)
     {
-    
+    //change the object as required.
+    // save the change into the database
     }
     
     /** */
@@ -78,4 +73,47 @@ public class Reservation
     {
         return  CreatedBy;
     }
+
+    /**
+     * @return the PartySize
+     */
+    public int getPartySize() {
+        return PartySize;
+    }
+
+    /**
+     * @return the reqTime
+     */
+    public int getReqTime() {
+        return reqTime;
+    }
+
+    /**
+     * @return the reqDate
+     */
+    public Date getReqDate() {
+        return reqDate;
+    }
+    
+    public void setPartySize(int newPartySize) {
+        PartySize = newPartySize;
+        
+        //change this in the database
+    }
+
+    /**
+     * @param reqTime the reqTime to set
+     */
+    public void setReqTime(int reqTime) {
+        this.reqTime = reqTime;
+    }
+
+    /**
+     * @param reqDate the reqDate to set
+     */
+    public void setReqDate(Date reqDate) {
+        this.reqDate = reqDate;
+    }
+    
+
 }
