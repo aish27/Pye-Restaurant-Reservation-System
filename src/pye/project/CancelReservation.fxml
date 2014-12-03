@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="pye.project.controller.CancelReservationController">
+   <children>
+      <Text layoutX="137.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Are you sure you would like to cancel your reservation?" />
+      <Button layoutX="232.0" layoutY="160.0" mnemonicParsing="false" text="Yes, Please Cancel." />
+      <Button layoutX="282.0" layoutY="200.0" mnemonicParsing="false" text="No" />
+   </children>
+</AnchorPane>

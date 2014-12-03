@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pye.project.controller.BookReservationController">
+    <children>
+        <Label text="Book Reservation  " />
+      <GridPane prefHeight="91.0" prefWidth="467.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="223.0" AnchorPane.topAnchor="60.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Restaurant Information:">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font>
+            </Label>
+            <Label text="Name:" GridPane.rowIndex="1" />
+            <Label text="Located at:" GridPane.rowIndex="2" />
+            <Label text="Phone Number:" GridPane.rowIndex="3" />
+            <Label text="selectedRestaurantName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="selectedRestaurantLocation" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="selectedRestaurantPhoneNumber" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         </children>
+      </GridPane>
+        <GridPane layoutX="10.0" layoutY="49.0" prefHeight="329.0" prefWidth="467.0" AnchorPane.topAnchor="200.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label text="Time:" GridPane.rowIndex="1" />
+                <Label text="Date:" GridPane.rowIndex="2" />
+                <Label text="Contact Information" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
+                <Label text="First Name:" GridPane.rowIndex="4" />
+                <Label text="Last Name:" GridPane.rowIndex="5" />
+                <Label text="Email Address:" GridPane.rowIndex="6" />
+                <Label text="Party Size:" />
+                <Label GridPane.columnIndex="1" />
+                <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <children>
+                        <ComboBox prefHeight="24.0" prefWidth="49.0" promptText="HR" />
+                        <Label text="   :   ">
+                            <font>
+                                <Font name="System Bold" size="13.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets top="5.0" />
+                            </HBox.margin>
+                        </Label>
+                        <ComboBox prefHeight="26.0" prefWidth="51.0" promptText="MIN" />
+                        <ChoiceBox prefHeight="23.0" prefWidth="52.0">
+                            <HBox.margin>
+                                <Insets left="10.0" />
+                            </HBox.margin>
+                        </ChoiceBox>
+                    </children>
+                </HBox>
+                <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <ComboBox prefWidth="150.0" GridPane.columnIndex="1" />
+            <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            </children>
+        </GridPane>
+      <VBox layoutX="352.0" layoutY="565.0" spacing="20.0" AnchorPane.bottomAnchor="259.0" AnchorPane.topAnchor="565.0">
+         <children>
+            <Button layoutX="350.0" layoutY="254.0" mnemonicParsing="false" text="Make Reservation" />
+              <Button layoutX="378.0" layoutY="287.0" mnemonicParsing="false" onAction="#goBackButtonAction" text="Go Back" />
+         </children>
+      </VBox>
+    </children>
+
+</AnchorPane>

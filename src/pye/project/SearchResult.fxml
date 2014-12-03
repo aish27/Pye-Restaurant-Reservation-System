@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pye.project.controller.SearchResultController">
+   <children>
+      <TableView layoutX="8.0" layoutY="41.0" prefHeight="359.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
+        <columns>
+          <TableColumn prefWidth="118.0" text="Restaurant" />
+          <TableColumn prefWidth="74.0" text="Cuisine" />
+            <TableColumn prefWidth="250.0" text="Address" />
+            <TableColumn minWidth="0.0" prefWidth="111.0" text="Phone" />
+            <TableColumn minWidth="0.0" prefWidth="113.0" text="Price" />
+            <TableColumn prefWidth="133.0" text="Click to Book" />
+        </columns>
+      </TableView>
+      <HBox prefHeight="41.0" prefWidth="800.0">
+         <children>
+            <Label text="This Lable will be hidden and display messages. &quot;No Results Found, Here are some recommendations&quot;">
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

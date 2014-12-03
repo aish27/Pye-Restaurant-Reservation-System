@@ -1,3 +1,5 @@
+package pye.project.model;
+
 
 import java.util.ArrayList;
 
@@ -50,13 +52,13 @@ public class Calender
     /** */
     public int getTotalSeats()
     {
-    
+    return 0; 
     }
     
     /** */
     public int getOperatingHours()
     {
-    
+    return 0;
     }
     
     /** */
