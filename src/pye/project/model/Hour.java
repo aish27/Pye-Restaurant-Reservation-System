@@ -15,8 +15,8 @@ import java.util.ArrayList;
  */
 public class Hour 
 {
-    private int hourOfDay;
-    private AllSeatsInARestaurant seats;
+    private final int hourOfDay;
+    private final AllSeatsInARestaurant seats;
     
     public Hour(int hour, int totalSeatsInRestaurant)
     {
