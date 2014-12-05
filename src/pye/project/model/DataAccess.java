@@ -1,5 +1,6 @@
 package pye.project.model;
 
+
 import java.util.*;
 import java.sql.*;
 import java.sql.Date;
@@ -20,18 +21,28 @@ public class DataAccess {
 	 * Default constructor that gets database connection
 	 * @throws Exception
 	 */
-	public DataAccess() throws Exception {
+	public DataAccess() {
 
 		// get db properties
 		Properties props = new Properties();
-		props.load(new FileInputStream("demo.properties"));
+		try {
+			props.load(new FileInputStream("demo.properties"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		String user = props.getProperty("user");
 		String password = props.getProperty("password");
 		String dburl = props.getProperty("dburl");
 
 		// connect to database
-		myConn = DriverManager.getConnection(dburl, user, password);
+		try {
+			myConn = DriverManager.getConnection(dburl, user, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		System.out.println("DB connection successful to: " + dburl);
 	}
@@ -42,7 +53,7 @@ public class DataAccess {
 	 * @return an arraylist of the Reservation
 	 * @throws Exception
 	 */
-	public List<Reservation> getAllReservations() throws Exception {
+	public List<Reservation> getAllReservations(){
 		List<Reservation> list = new ArrayList<>();
 
 		Statement myStmt = null;
@@ -56,12 +67,17 @@ public class DataAccess {
 				Reservation tempReservation = convertRowToReservation(myRs);
 				list.add(tempReservation);
 			}
-
-			return list;		
+		} catch (Exception e){
+			e.printStackTrace();
 		}
 		finally {
-			close(myStmt, myRs);
+			try {
+				close(myStmt, myRs);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
+		return list;
 	}
 
 	/**
@@ -78,7 +94,7 @@ public class DataAccess {
 	 * @throws Exception
 	 */
 
-	public Reservation searchReservation(String lastName, int conf) throws Exception {
+	public Reservation searchReservation(String lastName, int conf){
 
 		Reservation tempReservation = null;
 		PreparedStatement myStmt = null;
@@ -94,17 +110,25 @@ public class DataAccess {
 				tempReservation= convertRowToReservation(myRs);
 			}
 			//tempReservation stays null if the conf # doesnt exist. return null.
-			
-			if ((tempReservation != null) && tempReservation.getCreatedPerson().getLastName().equals(lastName))
+			Person p = tempReservation.getCreatedPerson();
+			System.out.println(p.toString());
+			if ((lastName.length() == 0) && (tempReservation != null))
+				return tempReservation;
+			else if ((tempReservation != null) && (tempReservation.getCreatedPerson().getLastName()).equalsIgnoreCase(lastName))
 				return tempReservation;
 			else
-				return null;
-			
-			
+				return tempReservation;
+		} catch (Exception e){
+			e.printStackTrace();
 		}
 		finally {
-			close(myStmt, myRs);
+			try {
+				close(myStmt, myRs);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
+		return tempReservation;
 	}
 	/**
 	 * Adds a reservation object to the database
@@ -117,28 +141,33 @@ public class DataAccess {
 	 * @throws SQLException - error
 	 */
 
-	public Reservation addReservation(Person person, Date date, int time, int partySize, int conf, int RestaurantID) throws SQLException
+	public Reservation addReservation(Person person, Date date, int time, int partySize, int conf, int RestaurantID)
 	{
 		//Statement myStmt = null;
 		int PersonID = person.getId();
+		Reservation r = null;
 	//	int RestaurantID = restaurant.getId();
-		String sql = "INSERT INTO reservations "
-				+ "(PersonID, ResDate, ResTime, party, confirmation, RestaurantID) VALUES "
-				+ "(?, ?, ?, ?, ?, ?)";
-		PreparedStatement stmt = myConn.prepareStatement(sql);
-		stmt.setInt(1, PersonID);
-		stmt.setDate(2, date);
-		stmt.setTime(3, intToTime(time)); //need to convert int time to time(time)
-		stmt.setInt(4, partySize);
-		stmt.setInt(5, conf);
-		stmt.setInt(6, RestaurantID);
-		int count = stmt.executeUpdate();
-		if (count != 0)
-			System.out.println("Added new Reservation");
-		int id = getLargestReservationsID();
-	//	return (new Reservation(id, true, time, date, conf, partySize, person));
-		return (new Reservation(id, time, date, conf, partySize, person, getRestaurant(RestaurantID)));
-
+		try{
+			String sql = "INSERT INTO reservations "
+					+ "(PersonID, ResDate, ResTime, party, confirmation, RestaurantID) VALUES "
+					+ "(?, ?, ?, ?, ?, ?)";
+			PreparedStatement stmt = myConn.prepareStatement(sql);
+			stmt.setInt(1, PersonID);
+			stmt.setDate(2, date);
+			stmt.setTime(3, intToTime(time)); //need to convert int time to time(time)
+			stmt.setInt(4, partySize);
+			stmt.setInt(5, conf);
+			stmt.setInt(6, RestaurantID);
+			int count = stmt.executeUpdate();
+			if (count != 0)
+				System.out.println("Added new Reservation");
+			int id = getLargestReservationsID();
+		//	return (new Reservation(id, true, time, date, conf, partySize, person));
+			return (new Reservation(id, time, date, conf, partySize, person, getRestaurant(RestaurantID)));
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return r;
 	}
 
 	/**
@@ -147,24 +176,29 @@ public class DataAccess {
 	 * @throws SQLException
 	 */
 
-	public void addPerson(Person person) throws SQLException
+	public void addPerson(Person person)
 	{
 		int PersonID = person.getId();
 		String last_name = person.getLastName();
 		String first_name = person.getFirstName();
 		String email = person.getEmail();
 		
-		String sql = "INSERT INTO person "
-				+ "(PersonID, last_name, first_name, email) VALUES "
-				+ "(?, ?, ?, ?)";
-		PreparedStatement stmt = myConn.prepareStatement(sql);
-		stmt.setInt(1, PersonID);
-		stmt.setString(2, last_name);
-		stmt.setString(3, first_name);
-		stmt.setString(4, email);
-		int count = stmt.executeUpdate();
-		if (count != 0)
-			System.out.println("Added new Person");
+		try
+		{
+			String sql = "INSERT INTO person "
+					+ "(PersonID, last_name, first_name, email) VALUES "
+					+ "(?, ?, ?, ?)";
+			PreparedStatement stmt = myConn.prepareStatement(sql);
+			stmt.setInt(1, PersonID);
+			stmt.setString(2, last_name);
+			stmt.setString(3, first_name);
+			stmt.setString(4, email);
+			int count = stmt.executeUpdate();
+			if (count != 0)
+				System.out.println("Added new Person");
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -181,9 +215,9 @@ public class DataAccess {
 	 * @throws Exception
 	 */
 
-	public List<Restaurant> searchRestaurants(String reqLocation, String reqCuisine, int reqTime,
-			int reqPprice, int reqSeats) throws Exception {
-		List<Restaurant> list = new ArrayList<>();
+	public ArrayList<Restaurant> searchRestaurants(String reqLocation, String reqCuisine, int reqTime,
+			int reqPprice, int reqSeats) {
+		ArrayList<Restaurant> list = new ArrayList<>();
 
 		PreparedStatement myStmt = null;
 		ResultSet myRs = null;
@@ -216,12 +250,17 @@ public class DataAccess {
 				Restaurant tempRestaurant = convertRowToRestaurant(myRs);
 				list.add(tempRestaurant);
 			}
-
-			return list;
+		//	return list;
+		} catch (SQLException e){
+			e.printStackTrace();
+		}finally {
+			try {
+				close(myStmt, myRs);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		finally {
-			close(myStmt, myRs);
-		}
+		return list;
 	}
 
 	/**
@@ -265,25 +304,27 @@ public class DataAccess {
 	 * @return Person Object
 	 * @throws SQLException
 	 */
-	private Person getPerson(int PersonID) throws SQLException 
+	public Person getPerson(int PersonID)
 	{
 		PreparedStatement myStmt = null;
 		ResultSet myRs = null;
 		Person tempPerson = null;
 		String lastName, firstName, email;
-
-		myStmt = myConn.prepareStatement("select * from person where PersonID = ?");
-		myStmt.setInt(1, PersonID);
-		myRs = myStmt.executeQuery();
-
-		while (myRs.next()) {
-			lastName = myRs.getString("last_name");
-			firstName = myRs.getString("first_name");
-			email = myRs.getString("email");
-
-			tempPerson = new Person(PersonID, lastName, firstName, email);
+		try{
+			myStmt = myConn.prepareStatement("select * from person where PersonID = ?");
+			myStmt.setInt(1, PersonID);
+			myRs = myStmt.executeQuery();
+	
+			while (myRs.next()) {
+				lastName = myRs.getString("last_name");
+				firstName = myRs.getString("first_name");
+				email = myRs.getString("email");
+	
+				tempPerson = new Person(PersonID, lastName, firstName, email);
+			}
+		}catch (SQLException e){
+			e.printStackTrace();
 		}
-
 		return tempPerson;
 	}
 
@@ -294,14 +335,15 @@ public class DataAccess {
 	 * @return Restaurant Object
 	 * @throws SQLException
 	 */
-	private Restaurant getRestaurant(int RestaurantID) throws SQLException 
+	public Restaurant getRestaurant(int RestaurantID)
 	{
 		PreparedStatement myStmt = null;
 		ResultSet myRs = null;
 		Restaurant tempRestaurant = null;
-		String city, state, email, cuisine, name;
-		int phoneNum, startTime, endTime, price, seats;
-
+		String city, state, email, cuisine, name, phoneNum;
+		int startTime, endTime, price, seats;
+		try
+		{
 		myStmt = myConn.prepareStatement("select * from restaurants where RestaurantID = ?");
 		myStmt.setInt(1, RestaurantID);
 		myRs = myStmt.executeQuery();
@@ -316,15 +358,18 @@ public class DataAccess {
 			email = myRs.getString("email");
 			price = myRs.getInt("price");
 			seats = myRs.getInt("seats");
-			phoneNum = myRs.getInt("phone"); //need to change string phonenum to long in database
+			phoneNum = myRs.getString("phone"); //need to change string phonenum to long in database
 
-			tempRestaurant = new Restaurant(RestaurantID, phoneNum, city, state, 00000, startTime, endTime, cuisine, name, price, seats, email);
+			tempRestaurant = new Restaurant(RestaurantID, phoneNum, city, startTime, endTime, cuisine, name, price, seats, email);
+		}
+		}catch(SQLException e){
+			e.printStackTrace();
 		}
 
 		return tempRestaurant;
 	}
 	
-	private Reservation getReservation(int ReservationsID) throws SQLException 
+	public Reservation getReservation(int ReservationsID) throws SQLException 
 	{
 		PreparedStatement myStmt = null;
 		ResultSet myRs = null;
@@ -333,22 +378,25 @@ public class DataAccess {
 		Date date;
 		Restaurant restaurant;
 		Person person;
-
-		myStmt = myConn.prepareStatement("select * from reservations where ReservationsID = ?");
-		myStmt.setInt(1, ReservationsID);
-		myRs = myStmt.executeQuery();
-
-		while (myRs.next()) {
-			PersonID = myRs.getInt("PersonID");
-			date = myRs.getDate("ResDate");
-			time = timeToInt(myRs.getTime("ResTime"));
-			price = myRs.getInt("price");
-			party = myRs.getInt("party");
-			confirmation = myRs.getInt("confirmation");
-			RestaurantID = myRs.getInt("RestaurantID"); //need to change string phonenum to long in database
-			restaurant = getRestaurant(RestaurantID);
-			person = getPerson(PersonID);
-			tempReservation = new Reservation(ReservationsID, time, date, confirmation, party, person, restaurant);
+		try
+		{
+			myStmt = myConn.prepareStatement("select * from reservations where ReservationsID = ?");
+			myStmt.setInt(1, ReservationsID);
+			myRs = myStmt.executeQuery();
+	
+			while (myRs.next()) {
+				PersonID = myRs.getInt("PersonID");
+				date = myRs.getDate("ResDate");
+				time = timeToInt(myRs.getTime("ResTime"));
+				party = myRs.getInt("party");
+				confirmation = myRs.getInt("confirmation");
+				RestaurantID = myRs.getInt("RestaurantID"); //need to change string phonenum to long in database
+				restaurant = getRestaurant(RestaurantID);
+				person = getPerson(PersonID);
+				tempReservation = new Reservation(ReservationsID, time, date, confirmation, party, person, restaurant);
+			}
+		}catch (SQLException e){
+			e.printStackTrace();
 		}
 
 		return tempReservation;
@@ -362,10 +410,18 @@ public class DataAccess {
 	 * @throws SQLException
 	 */
 	
-	private Reservation convertRowToReservation(ResultSet myRs) throws SQLException {
+	private Reservation convertRowToReservation(ResultSet myRs){
 	
-		int ReservationsID = myRs.getInt("ReservationsID");
-		Reservation reservation = getReservation(ReservationsID);
+		int ReservationsID;
+		Reservation reservation = null;
+		try {
+			ReservationsID = myRs.getInt("ReservationsID");
+		   reservation = getReservation(ReservationsID);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		return reservation;
 	}
@@ -378,9 +434,14 @@ public class DataAccess {
 	 */
 
 	private Restaurant convertRowToRestaurant(ResultSet myRs) throws SQLException {
-		int RestaurantID = myRs.getInt("RestaurantID");
-		Restaurant restaurant = getRestaurant(RestaurantID);
-
+		
+		Restaurant restaurant = null;
+		try{
+			int RestaurantID = myRs.getInt("RestaurantID");
+			restaurant = getRestaurant(RestaurantID);
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
 		return restaurant;
 	}
 
@@ -393,11 +454,16 @@ public class DataAccess {
 	 * @throws SQLException
 	 */
 
-	private Person convertRowToPerson(ResultSet myRs) throws SQLException {
-		int PersonID = myRs.getInt("PersonID");		
-		Person person = getPerson(PersonID);
-
-		return person;
+	private Person convertRowToPerson(ResultSet myRs){
+		
+		Person p = null;
+		try{
+			int PersonID = myRs.getInt("PersonID");		
+			p = getPerson(PersonID);
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return p;
 	}
 
 	/**
@@ -409,15 +475,18 @@ public class DataAccess {
 	int getLargestPersonID() throws SQLException 
 	{
 		int PersonID = 0;
-		String sql = "select * from person ORDER BY PersonID DESC LIMIT 0,1";
-		PreparedStatement myStmt = null;
-		ResultSet myRs = null;
-
-		myStmt = myConn.prepareStatement(sql);
-		myRs = myStmt.executeQuery();
-		while (myRs.next())
-			PersonID = myRs.getInt("PersonID");
-
+		try{
+			String sql = "select * from person ORDER BY PersonID DESC LIMIT 0,1";
+			PreparedStatement myStmt = null;
+			ResultSet myRs = null;
+	
+			myStmt = myConn.prepareStatement(sql);
+			myRs = myStmt.executeQuery();
+			while (myRs.next())
+				PersonID = myRs.getInt("PersonID");
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
 		return PersonID;
 	}
 	/**
@@ -426,18 +495,21 @@ public class DataAccess {
 	 * @return ReservationsID(largest)
 	 * @throws SQLException
 	 */
-	int getLargestReservationsID() throws SQLException 
+	int getLargestReservationsID()
 	{
 		int ReservationsID = 0;
-		String sql = "select * from reservations ORDER BY ReservationsID DESC LIMIT 0,1";
-		PreparedStatement myStmt = null;
-		ResultSet myRs = null;
-
-		myStmt = myConn.prepareStatement(sql);
-		myRs = myStmt.executeQuery();
-		while (myRs.next())
-			ReservationsID = myRs.getInt("ReservationsID");
-
+		try{
+			String sql = "select * from reservations ORDER BY ReservationsID DESC LIMIT 0,1";
+			PreparedStatement myStmt = null;
+			ResultSet myRs = null;
+	
+			myStmt = myConn.prepareStatement(sql);
+			myRs = myStmt.executeQuery();
+			while (myRs.next())
+				ReservationsID = myRs.getInt("ReservationsID");
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
 		return ReservationsID;
 	}
 
@@ -474,30 +546,33 @@ public class DataAccess {
 	 * @return true if deleted, false if not. 
 	 * @throws Exception
 	 */
-	boolean deleteReservation(String lastName, int confirmation) throws Exception
+	boolean deleteReservation(String lastName, int confirmation)
 	{
 		PreparedStatement myStmt = null;
 		boolean status = false;
 		int count;
 		Reservation toBeDeleted = searchReservation(lastName, confirmation);
-		
-		if (toBeDeleted != null)
-		{
-			myStmt = myConn.prepareStatement("delete from reservations where confirmation = ? limit 1");
-			myStmt.setInt(1, confirmation);
-			count = myStmt.executeUpdate();
-			
-			if (count != 0)
+		try{	
+			if (toBeDeleted != null)
 			{
-				System.out.println("a");
-				status = true;
+				myStmt = myConn.prepareStatement("delete from reservations where confirmation = ? limit 1");
+				myStmt.setInt(1, confirmation);
+				count = myStmt.executeUpdate();
+				
+				if (count != 0)
+				{
+					System.out.println("a");
+					status = true;
+				}
 			}
+		}catch(SQLException e){
+			e.printStackTrace();
 		}
 		return status;
 	}
 	//not sure how to go about doing this with what parameters?
 	//might need reservation argument too. the one that needs to be modified + all the arguments below now? 
-	public Reservation modifyReservation(Person person, Date date, int time, int partySize, int conf, int RestaurantID) throws Exception
+	public Reservation modifyReservation(Person person, Date date, int time, int partySize, int conf, int RestaurantID)
 	{
 		Reservation tempRes = searchReservation(person.getLastName(), conf);
 		

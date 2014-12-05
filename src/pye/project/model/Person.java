@@ -27,9 +27,17 @@ public class Person
     private String email;
     
     /** */
-    private String userName;
+    
+	public Person(int personID, String lastName, String firstName, String email)
+	{
+		super();
+		this.id = personID;
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.email = email;
+	}
 
-    /**
+	/**
      * @return the id
      */
     public int getId() {
@@ -57,10 +65,4 @@ public class Person
         return email;
     }
 
-    /**
-     * @return the userName
-     */
-    public String getUserName() {
-        return userName;
-    }
 }

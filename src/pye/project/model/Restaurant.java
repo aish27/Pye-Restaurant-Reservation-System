@@ -2,7 +2,6 @@ package pye.project.model;
 
 
 import java.util.ArrayList;
-import java.util.Date;
 
 //
 //
@@ -25,19 +24,11 @@ public class Restaurant {
 
     /**
      *      */
-    private int phoneNumber;
+    private String phoneNumber;
 
     /**
      *      */
     private String city;
-
-    /**
-     *      */
-    private String state;
-
-    /**
-     *      */
-    private int zipcode;
 
     /**
      *      */
@@ -71,7 +62,7 @@ public class Restaurant {
     private RestaurantCalendar thisRestaurantSchedule;
     
 
-    public Restaurant(int id, int phoneNumber, String city, String state, int zipcode, int startTime, int endTime, String cuisine, String name, int price,int totalNumberOfSeats, String managerEmail) {
+    public Restaurant(int id, String phoneNumber, String city, int startTime, int endTime, String cuisine, String name, int price,int totalNumberOfSeats, String managerEmail) {
         
         this.id = id;
         this.cuisine = cuisine;
@@ -81,8 +72,6 @@ public class Restaurant {
         this.price = price;
         this.phoneNumber = phoneNumber;
         this.city = city;
-        this.state = state;
-        this.zipcode = zipcode;
         this.totalNumberOfSeats = totalNumberOfSeats;
         this.managerEmailAddress = managerEmail;
         this.thisRestaurantSchedule = new RestaurantCalendar(openTime,closeTime,totalNumberOfSeats);
@@ -100,7 +89,7 @@ public class Restaurant {
     /**
      * @return the phoneNumber
      */
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -109,20 +98,6 @@ public class Restaurant {
      */
     public String getCity() {
         return city;
-    }
-
-    /**
-     * @return the state
-     */
-    public String getState() {
-        return state;
-    }
-
-    /**
-     * @return the zipcode
-     */
-    public int getZipcode() {
-        return zipcode;
     }
 
     /**
@@ -193,7 +168,7 @@ public class Restaurant {
     /**
      * @param phoneNumber the phoneNumber to set
      */
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -202,20 +177,6 @@ public class Restaurant {
      */
     public void setCity(String city) {
         this.city = city;
-    }
-
-    /**
-     * @param state the state to set
-     */
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    /**
-     * @param zipcode the zipcode to set
-     */
-    public void setZipcode(int zipcode) {
-        this.zipcode = zipcode;
     }
 
     /**
@@ -273,7 +234,7 @@ public class Restaurant {
     public void setThisRestaurantSchedule(RestaurantCalendar thisRestaurantSchedule) {
         this.thisRestaurantSchedule = thisRestaurantSchedule;
     }
-    
+    /*
     public void updateRestaurant(int phoneNumber, String city, String state, int zipcode, int startTime, int endTime, String cuisine, String name, int price,int totalNumberOfSeats, String managerEmail)
     {
         this.setCity(city);
@@ -282,10 +243,7 @@ public class Restaurant {
         this.setManagerEmailAddress(managerEmailAddress);
         this.setName(name);
         this.setOpenTime(openTime);
-        this.setPhoneNumber(phoneNumber);
         this.setPrice(price);
-        this.setState(state);
         this.setTotalNumberOfSeats(totalNumberOfSeats);
-        this.setZipcode(zipcode);
-    }
+    } */
 }

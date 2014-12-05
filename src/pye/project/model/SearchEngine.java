@@ -1,7 +1,9 @@
 package pye.project.model;
 
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 //
 //
@@ -20,24 +22,26 @@ public class SearchEngine
 {
     /** */
     public int id;
+    public static DataAccess dao;
     
     /**  Searches the database and returns all the restaurants that fit the required parameters
     */
-    public static ArrayList<Restaurant> searchRestaurants(String city, String state, int openTime, int endTime, int requiredNumberOfSeats)
+    public static ArrayList<Restaurant> searchRestaurants(String city, String reqCuisine, Date date, int reqTime, int requiredNumberOfSeats, int price)
     {
     //use the parameters to search the database and return an arraylist of 
-        return null;
+    	
+        return (dao.searchRestaurants(city, reqCuisine, reqTime, price, requiredNumberOfSeats));
     }
     
-    public static Reservation searchReservation(int ConfirmationNumber)
+    public static Reservation searchReservation(int ConfirmationNumber) throws Exception
     {
-        return null;
+        return (dao.searchReservation(null, ConfirmationNumber));
     }
     
-     public static Restaurant searchRestaurant(int id)
+     public static Restaurant searchRestaurant(int id) throws SQLException
     {
-    //Return the restaurant whose id number is 'id'
-        return null;
+   
+        return (dao.getRestaurant(id));
     }
     
 }

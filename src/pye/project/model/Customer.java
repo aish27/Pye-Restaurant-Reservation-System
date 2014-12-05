@@ -18,7 +18,13 @@ import java.util.ArrayList;
 /** */
 public class Customer extends Person
 {
-    /** */
+    public Customer(int personID, String lastName, String firstName,
+			String email) {
+		super(personID, lastName, firstName, email);
+		// TODO Auto-generated constructor stub
+	}
+
+	/** */
     public void shareReservation(ArrayList<String> emailAddresses, String type)
     {
         EmailSender.sendMail(emailAddresses,null, "Participant");

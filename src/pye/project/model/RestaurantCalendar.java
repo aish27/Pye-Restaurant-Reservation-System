@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import sun.util.calendar.JulianCalendar;
+//import sun.util.calendar.JulianCalendar;
 
 //
 //
@@ -95,7 +95,7 @@ public class RestaurantCalendar extends GregorianCalendar
         reserveSeats(theReservation.getReqDate(),theReservation.getReqTime(),(-1) * theReservation.getPartySize());
         theReservation.setPartySize(partySize);
         theReservation.setReqTime(reqTime);
-        theReservation.setReqDate(reqDate);
+        theReservation.setReqDate((java.sql.Date) reqDate);
         // update the database with the new one.
         reserveSeats(reqDate,reqTime,partySize); 
     }

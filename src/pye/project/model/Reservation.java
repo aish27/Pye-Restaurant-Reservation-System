@@ -1,7 +1,7 @@
 package pye.project.model;
 
+import java.sql.Date;
 
-import java.util.Date;
 
 //
 //
@@ -18,11 +18,9 @@ import java.util.Date;
 /** */
 public class Reservation
 {
+	DataAccess dao = new DataAccess();
     /** */
     public int id;
-    
-    /** */
-    public Boolean Confirmed;
     
     /** */
     private int reqTime;
@@ -39,35 +37,27 @@ public class Reservation
     /** */
     public Person CreatedBy;
 
-    public Reservation(int id, Boolean Confirmed, int reqTime, Date reqDate, int ConfirmationNumber, int PartySize, Person CreatedBy) {
-        this.id = id;
-        this.Confirmed = Confirmed;
+	public Restaurant restaurant;
+	//added restaurant object in arguments
+    public Reservation(int id, int reqTime, Date reqDate, int ConfirmationNumber, int PartySize, Person CreatedBy, Restaurant restaurant) {
+    	super();
+    	this.id = id;
         this.reqTime = reqTime;
         this.reqDate = reqDate;
         this.ConfirmationNumber = ConfirmationNumber;
         this.PartySize = PartySize;
         this.CreatedBy = CreatedBy;
+        this.restaurant = restaurant;
         
         //add it to the database
     }
         
     /** */
-    public void setReservation(Boolean Confirmed, int reqTime, Date reqDate, int RestaurantId, int ConfirmationNumber, int PartySize, Person CreatedBy)
+    public void setReservation(int reqTime, Date reqDate, int RestaurantId, int ConfirmationNumber, int PartySize, Person CreatedBy)
     {
+    	dao.addReservation(CreatedBy, reqDate, reqTime, PartySize, ConfirmationNumber, RestaurantId);
     //change the object as required.
     // save the change into the database
-    }
-    
-    /** */
-    public void confirmReservation()
-    {
-        this.Confirmed = true;
-    }
-    
-    /** */
-    public Boolean getConfirmationStatus()
-    {
-        return Confirmed;
     }
     
     /** */
