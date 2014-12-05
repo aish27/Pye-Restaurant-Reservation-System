@@ -75,7 +75,8 @@ public class ReservationManager
         //Find the restaurant manager's email address
         String ManagerEmail = selectedRestaurant.getManagerEmailAddress();
         //send a confirmation to the restaurant manager
-        EmailSender.sendMail(null, ManagerEmail, "Manager"); 
+        EmailSender e = new EmailSender();
+        e.sendMail(null, ManagerEmail, "Manager", aReservation); 
         selectedRestaurant.getThisRestaurantSchedule().reserveSeats(reqDate,reqTime,PartySize);
         
     }
