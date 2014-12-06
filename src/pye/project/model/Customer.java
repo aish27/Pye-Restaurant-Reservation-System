@@ -27,7 +27,7 @@ public class Customer extends Person
 	/** */
     public void shareReservation(ArrayList<String> emailAddresses, String type)
     {
-        EmailSender.sendMail(emailAddresses,null, "Participant");
+        //EmailSender.sendMail(emailAddresses,null, "Participant");
         // use the email sender to share the reservation with others
     }
 }
