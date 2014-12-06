@@ -31,9 +31,9 @@
             <Label text="Name:" GridPane.rowIndex="1" />
             <Label text="Located at:" GridPane.rowIndex="2" />
             <Label text="Phone Number:" GridPane.rowIndex="3" />
-            <Label text="selectedRestaurantName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label text="selectedRestaurantLocation" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="selectedRestaurantPhoneNumber" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="selectedRestaurantName" prefHeight="16.0" prefWidth="162.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="selectedRestaurantLocation" prefHeight="16.0" prefWidth="189.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="selectedRestaurantPhoneNumber" prefHeight="16.0" prefWidth="182.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
         <GridPane layoutX="10.0" layoutY="49.0" prefHeight="329.0" prefWidth="467.0" AnchorPane.topAnchor="200.0">
@@ -65,7 +65,7 @@
                 <Label GridPane.columnIndex="1" />
                 <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <children>
-                        <ComboBox prefHeight="24.0" prefWidth="49.0" promptText="HR" />
+                        <ComboBox fx:id="selectedHour" prefHeight="24.0" prefWidth="49.0" promptText="HR" />
                         <Label text="   :   ">
                             <font>
                                 <Font name="System Bold" size="13.0" />
@@ -74,7 +74,7 @@
                                 <Insets top="5.0" />
                             </HBox.margin>
                         </Label>
-                        <ComboBox prefHeight="26.0" prefWidth="51.0" promptText="MIN" />
+                        <ComboBox fx:id="selectedMin" prefHeight="26.0" prefWidth="51.0" promptText="MIN" />
                         <ChoiceBox prefHeight="23.0" prefWidth="52.0">
                             <HBox.margin>
                                 <Insets left="10.0" />
@@ -84,7 +84,7 @@
                 </HBox>
                 <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <ComboBox prefWidth="150.0" GridPane.columnIndex="1" />
-            <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <DatePicker fx:id="selectedDate" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />

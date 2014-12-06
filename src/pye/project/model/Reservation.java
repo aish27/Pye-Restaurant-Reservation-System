@@ -43,12 +43,26 @@ public class Reservation
         //add it to the database
     }
 
-    Reservation(int i, boolean b, int reqTime, Date reqDate, int ConfirmationNumber, int PartySize, Person CreatedBy) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    Reservation(int id, boolean b, int reqTime, Date reqDate, int ConfirmationNumber, int PartySize, Person CreatedBy) {
+        this.id = id;
+        this.Confirmed = b;
+        this.reqTime = reqTime;
+        this.reqDate = reqDate;
+        this.ConfirmationNumber = ConfirmationNumber;
+        this.PartySize = PartySize;
+        this.CreatedBy = CreatedBy;
+        //this.restaurant = restaurant;
     }
 
     public Reservation(int ReservationID, boolean b, int intTime, java.sql.Date reqDate, int conf, int party, Person CreatedBy, Restaurant restaurant) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.id = ReservationID;
+        this.Confirmed = b;
+        this.reqTime = intTime;
+        this.reqDate = reqDate;
+        this.ConfirmationNumber = conf;
+        this.PartySize = PartySize;
+        this.CreatedBy = CreatedBy;
+        this.restaurant = restaurant;
     }
         
     /** */

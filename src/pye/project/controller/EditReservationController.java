@@ -17,7 +17,7 @@ import javafx.fxml.Initializable;
  * @author Ambrin
  */
 public class EditReservationController implements Initializable {
-    
+
     @FXML
     private void goBackButtonAction(ActionEvent event) {
         System.out.println("Previous Screen");
@@ -29,6 +29,6 @@ public class EditReservationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
 }

@@ -5,6 +5,8 @@ import java.sql.*;
 import java.sql.Date;
 import java.io.*;
 import java.math.BigDecimal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pye.project.model.Person;
 import pye.project.model.Reservation;
 
@@ -206,9 +208,9 @@ public class DataAccess {
      * @return List of Restaurants found
      * @throws Exception
      */
-    public List<Restaurant> searchRestaurants(String reqLocation, String reqCuisine, int reqTime,
+    public ArrayList<Restaurant> searchRestaurants(String reqLocation, String reqCuisine, int reqTime,
             int reqPprice, int reqSeats) throws Exception {
-        List<Restaurant> list = new ArrayList<>();
+        ArrayList<Restaurant> list = new ArrayList<>();
 
         PreparedStatement myStmt = null;
         ResultSet myRs = null;
@@ -424,7 +426,49 @@ public class DataAccess {
         close(null, myStmt, myRs);
     }
 
-    Reservation searchReservation(int ConfirmationNumber) throws SQLException {
+    Reservation searchReservation(int ConfirmationNumber) {
+        
+                Reservation tempReservation = null;
+        PreparedStatement myStmt = null;
+        ResultSet myRs = null;
+
+        try {
+                    try {
+                        myStmt = myConn.prepareStatement("select * from reservations where confirmation = ?");
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    try {
+                        myStmt.setInt(1, ConfirmationNumber);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        myRs = myStmt.executeQuery();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    try {
+                        while (myRs.next()) {
+                            tempReservation = convertRowToReservation(myRs);
+                        }       } catch (SQLException ex) {
+                        Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+            return tempReservation;
+        } finally {
+                    try {
+                        close(myStmt, myRs);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+        }
+    }
+        
+   
+
+   /** Reservation searchReservation(int ConfirmationNumber) throws SQLException {
         Reservation tempReservation = null;
         PreparedStatement myStmt = null;
         ResultSet myRs = null;
@@ -443,6 +487,6 @@ public class DataAccess {
             close(myStmt, myRs);
         }
 
-    }
+    }*/
 
 }

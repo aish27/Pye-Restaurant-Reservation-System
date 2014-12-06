@@ -10,14 +10,13 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pye.project.controller.SearchResultController">
    <children>
-      <TableView layoutX="8.0" layoutY="41.0" prefHeight="359.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
+      <TableView fx:id="searchResultTable" layoutX="8.0" layoutY="41.0" prefHeight="359.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
         <columns>
-          <TableColumn prefWidth="118.0" text="Restaurant" />
-          <TableColumn prefWidth="74.0" text="Cuisine" />
-            <TableColumn prefWidth="250.0" text="Address" />
-            <TableColumn minWidth="0.0" prefWidth="111.0" text="Phone" />
-            <TableColumn minWidth="0.0" prefWidth="113.0" text="Price" />
-            <TableColumn prefWidth="133.0" text="Click to Book" />
+          <TableColumn fx:id="colResturant" prefWidth="118.0" text="Restaurant" />
+          <TableColumn fx:id="colCuisine" prefWidth="74.0" text="Cuisine" />
+            <TableColumn fx:id="colAddress" prefWidth="250.0" text="Address" />
+            <TableColumn fx:id="colPrice" minWidth="0.0" prefWidth="113.0" text="Price" />
+            <TableColumn fx:id="colSelect" prefWidth="133.0" text="Select" />
         </columns>
       </TableView>
       <HBox prefHeight="41.0" prefWidth="800.0">
