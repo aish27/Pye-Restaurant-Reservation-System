@@ -8,6 +8,7 @@ package pye.project.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextField;
 
 /**
  * FXML Controller class
@@ -15,6 +16,19 @@ import javafx.fxml.Initializable;
  * @author Ambrin
  */
 public class ShareReservationController implements Initializable {
+    
+   /** @FXML
+    public TextField email1;
+    @FXML
+    public TextField email1;
+    @FXML
+    public TextField email1;
+    @FXML
+    public TextField email1;
+    @FXML
+    public TextField email1;*/
+    
+    
 
     /**
      * Initializes the controller class.

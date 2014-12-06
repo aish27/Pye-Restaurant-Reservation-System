@@ -1,9 +1,10 @@
 package pye.project.model;
 
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 //
 //
@@ -21,64 +22,68 @@ public class ReservationManager
 {
     static Restaurant selectedRestaurant;
     static int id = 0; 
-    static DataAccess dao = new DataAccess();
     
     /** */
-    public static void addRestaurant(String phoneNumber, String city, String state, int zipcode, int openTime, int closeTime, String cuisine, String name, int price,int totalNumberOfSeats, String managerEmail)
+    public static void addRestaurant(int phoneNumber, String city, String state, int zipcode, int openTime, int closeTime, String cuisine, String name, int price,int totalNumberOfSeats, String managerEmail)
     {
-        Restaurant aNewRestaurant = new Restaurant(id++,phoneNumber,city, openTime,closeTime,cuisine, name,price, totalNumberOfSeats, managerEmail);
+        Restaurant aNewRestaurant = new Restaurant(id++,phoneNumber,city, state,zipcode, openTime,closeTime,cuisine, name,price, totalNumberOfSeats, managerEmail);
     }
     
-        /**
-         * @throws SQLException  */
-    /*//Not going to be updating the Restuarnat Information in this version
-    public static String updateRestaurantInformation(int id, String phoneNumber, String city, int startTime, int endTime, String cuisine, String name, int price,int totalNumberOfSeats, String managerEmail, String restaurantName) throws SQLException
+        /** */
+    public static String updateRestaurantInformation(int id, int phoneNumber, String city, String state, int zipcode, int startTime, int endTime, String cuisine, String name, int price,int totalNumberOfSeats, String managerEmail, String restaurantName)
     {
         Restaurant toBeChanged = SearchEngine.searchRestaurant(id);
         if(toBeChanged == null)
             return "Restaurant not found";
-        if(phoneNumber == null) phoneNumber = toBeChanged.getPhoneNumber();
+        if(phoneNumber == -1) phoneNumber = toBeChanged.getPhoneNumber();
         if(city == null) city = toBeChanged.getCity();
+        if(state == null) state = toBeChanged.getState();
+        if(zipcode == -1) zipcode = toBeChanged.getZipcode();
         if(startTime == -1) startTime = toBeChanged.getOpenTime();
         if(endTime == -1) endTime = toBeChanged.getCloseTime();
         if(cuisine ==null) cuisine = toBeChanged.getCuisine();
         if(name == null) name = toBeChanged.getName();
         if(price == -1) price = toBeChanged.getPrice();
-        if(totalNumberOfSeats == -1) totalNumberOfSeats = toBeChanged.getTotalNumberOfSeats()();
+        if(totalNumberOfSeats == -1) totalNumberOfSeats = toBeChanged.getPhoneNumber();
         if(managerEmail == null) managerEmail = toBeChanged.getManagerEmailAddress();
         
-        toBeChanged.updateRestaurant(phoneNumber, city, startTime, endTime, cuisine, name, price,totalNumberOfSeats, managerEmail);
+        toBeChanged.updateRestaurant(phoneNumber, city, state, zipcode, startTime,endTime,  cuisine, name, price,totalNumberOfSeats, managerEmail);
         return "Changes have been made to the restaurant's profile";
-    } */
+    }
     
-    public static Restaurant displayRestaurant(int Restaurantid) throws SQLException
+    public static Restaurant displayRestaurant(int Restaurantid)
     {
         return SearchEngine.searchRestaurant(id);
     }
     
     /** */
-    public static ArrayList<Restaurant> searchDatabaseForRestaurants(String city, String reqCuisine, Date date, int reqTime, int requiredNumberOfSeats, int price)
+     //public static ArrayList<Restaurant> searchRestaurants(String city, String cuisine, int time, int price, int seats) {
+ 
+    public static ArrayList<Restaurant> searchDatabaseForRestaurants(String city, String cuisine, int time, int price, int seats)
     {
-    //use the parameters to search the database and return an arraylist of 
-    	
-        return (dao.searchRestaurants(city, reqCuisine, reqTime, price, requiredNumberOfSeats));
+        return SearchEngine.searchRestaurants(city, cuisine, time,price,seats);
     }
-
     
     /** */
     public static void bookReservationInSystem(int reqTime, Date reqDate,int ConfirmationNumber, int PartySize, Person CreatedBy)
     {
         // make the reservation and add it to the database (inside the reservation class)
-        Reservation aReservation = new Reservation (id++,reqTime,(java.sql.Date) reqDate,ConfirmationNumber,PartySize,CreatedBy, selectedRestaurant);
+        Reservation aReservation = new Reservation (id++, false,reqTime,reqDate,ConfirmationNumber,PartySize,CreatedBy);
         RestaurantCalendar someCalender = selectedRestaurant.getThisRestaurantSchedule();
         someCalender.addReservation(aReservation);
         //Find the restaurant manager's email address
         String ManagerEmail = selectedRestaurant.getManagerEmailAddress();
         //send a confirmation to the restaurant manager
-        EmailSender e = new EmailSender();
-        e.sendMail(null, ManagerEmail, "Manager", aReservation); 
-        selectedRestaurant.getThisRestaurantSchedule().reserveSeats(reqDate,reqTime,PartySize);
-        
+        //EmailSender.sendMail(null, ManagerEmail, "Manager"); 
+        selectedRestaurant.getThisRestaurantSchedule().reserveSeats(reqDate,reqTime,PartySize);}
+
+    public static Reservation displayReservation(int ConfirmationNumber, String lastName) {
+         try {
+            return SearchEngine.searchReservation(ConfirmationNumber,lastName);
+        } catch (Exception ex) {
+            Logger.getLogger(ReservationManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     private void setSelectedRestaurant(Restaurant selected)
@@ -86,17 +91,26 @@ public class ReservationManager
         selectedRestaurant = selected;
     }
     
-    public static Reservation displayReservation(int ConfirmationNumber) throws Exception
+    public static Reservation displayReservation(int ConfirmationNumber)
     {
-        return SearchEngine.searchReservation(ConfirmationNumber);
+        try {
+            return SearchEngine.searchReservation(ConfirmationNumber);
+        } catch (Exception ex) {
+            Logger.getLogger(ReservationManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     /** Updates or cancels a reservation. If the reservation cannot be updated, returns the error
-     * @throws Exception 
      */
-    public static String updateReservationInSystem(int ConfirmationNumber, int reqTime, Date reqDate, int partySize) throws Exception
+    public static String updateReservationInSystem(int ConfirmationNumber, int reqTime, Date reqDate, int partySize)
     { 
-        Reservation theReservation = SearchEngine.searchReservation(ConfirmationNumber);
+        Reservation theReservation = null;
+        try {
+            theReservation = SearchEngine.searchReservation(ConfirmationNumber);
+        } catch (Exception ex) {
+            Logger.getLogger(ReservationManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if(theReservation != null)
         {
             RestaurantCalendar someCalender = selectedRestaurant.getThisRestaurantSchedule();
@@ -116,6 +130,7 @@ public class ReservationManager
         {
             RestaurantCalendar someCalender = selectedRestaurant.getThisRestaurantSchedule();
             someCalender.deleteReservation(theReservation);
+            //theReservation.
             return "The requested reservation has been cancelled.";
         }
         else return "The reservation does not exist.";  

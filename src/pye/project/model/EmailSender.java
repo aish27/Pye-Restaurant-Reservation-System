@@ -2,7 +2,6 @@ package pye.project.model;
 
 import javax.mail.*;
 import javax.mail.internet.*;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
@@ -147,4 +146,3 @@ public class EmailSender {
 
   
 }
-
