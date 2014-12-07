@@ -5,7 +5,6 @@
  */
 package pye.project.controller;
 
-
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
@@ -64,6 +63,9 @@ public class MainController implements Initializable {
     public Label confLabel;
 
     @FXML
+    public Reservation res = null;
+
+    @FXML
     private void searchButtonAction(ActionEvent event) throws Exception {
         String city = locationSelected();
         String cuisine = cuisineSelected();
@@ -72,32 +74,28 @@ public class MainController implements Initializable {
         int seats = partySizeSelected();
 
         openResults(event);
-        List <Restaurant> list = SearchEngine.searchRestaurants(city, cuisine, time, price, seats);{
-        for (Restaurant d : list); 
-        }   
-
-       /** if (price == 0) {
-            if (cuisine == "Select Cuisine") {
-                System.out.println("price is zero and cusine is null 1,3,5"); //worked
-            } 
-        else {
-                System.out.println("price is zero and cuisine is not null 1,2,3,5");
+        List<Restaurant> list = SearchEngine.searchRestaurants(city, cuisine, time, price, seats);
+        {
+            for (Restaurant d : list);
         }
 
-        } else { 
-            if (cuisine == "Select Cuisine") {
-                System.out.println("price is nonzero and cusine is null 1,3,4,5"); //worked
-                List <Restaurant> list = SearchEngine.searchRestaurants(city, time, price, seats);{
-                for (Restaurant d : list); 
-                }    
-                //System.out.println(list2.toString()); 
-            }    else  {
-                System.out.println("price is nonzero and cusine is not null all else do 4(1, 2, 3, 4, 5"); //worked
-                //List <Restaurant> list = SearchEngine.searchRestaurants(city, cuisine, time, price, seats);{
-		//for (Restaurant d : list) ;
-                }
-            
-        }*/
+        /**
+         * if (price == 0) { if (cuisine == "Select Cuisine") {
+         * System.out.println("price is zero and cusine is null 1,3,5");
+         * //worked } else { System.out.println("price is zero and cuisine is
+         * not null 1,2,3,5"); }
+         *
+         * } else { if (cuisine == "Select Cuisine") { System.out.println("price
+         * is nonzero and cusine is null 1,3,4,5"); //worked List <Restaurant>
+         * list = SearchEngine.searchRestaurants(city, time, price, seats);{ for
+         * (Restaurant d : list); } //System.out.println(list2.toString()); }
+         * else { System.out.println("price is nonzero and cusine is not null
+         * all else do 4(1, 2, 3, 4, 5"); //worked //List <Restaurant> list =
+         * SearchEngine.searchRestaurants(city, cuisine, time, price, seats);{
+         * //for (Restaurant d : list) ; }
+         *
+         * }
+         */
     }
 
     @FXML
@@ -111,8 +109,9 @@ public class MainController implements Initializable {
             System.out.println(ConfirmationNumber);
 
             //TESTING:
-            //Reservation res = ReservationManager.displayReservation(ConfirmationNumber, lastName);
-            //System.out.println(res.ConfirmationNumber+", "+res.CreatedBy.getLastName()+","+res.CreatedBy.getFirstName()+","+res.restaurant);
+            res = ReservationManager.displayReservation(ConfirmationNumber, lastName);
+            System.out.println("From MainController.java");
+            System.out.println(res.ConfirmationNumber + ", " + res.CreatedBy.getLastName() + "," + res.CreatedBy.getFirstName() + "," + res.restaurant);
             /**
              * System.out.println("Confirmation Number: " +
              * res.ConfirmationNumber + "/n"); if (res.restaurant == null) {
@@ -167,19 +166,37 @@ public class MainController implements Initializable {
             AnchorPane results = (AnchorPane) fxmlLoader.load(url.openStream());
             contentPane.getChildren().clear();
             contentPane.getChildren().add(results);
-            //results.getChildren().
-            //results.reservationContentPane.getChildren().confLabel.setText("Boo!");
-            //confLabel.setText(res.ConfirmationNumber);
 
+            ReservationLookupController rCtl = fxmlLoader.<ReservationLookupController>getController();
+            rCtl.setReservationFromParent(res);
+
+            if (res == null) {
+                System.out.println("res is null in main");
+            }
+
+            if (rCtl == null) {
+                System.out.println("rCtl is null in main");
+            }
+
+            // I think we can pass the params from the parent this way
+            //Label cLbl = (Label)results.lookup("#confLabel");
+            //cLbl.setText(null);
+            // but 
+            //results.setUserData(res);
+            //contentPane.getChildren().getClass().get
+            //results.getChildren().
+            //results.getChildren().confLabel.setText("Boo!");
+            //confLabel.setText(res.ConfirmationNumber);
+            //Controller myController = fxmlLoader.getController();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private String locationSelected() {
-           String locationSelected = locationComboBox.getValue().toString();
-           System.out.println(locationSelected);    
-           return locationSelected;
+        String locationSelected = locationComboBox.getValue().toString();
+        System.out.println(locationSelected);
+        return locationSelected;
     }
 
     private String cuisineSelected() {
@@ -213,13 +230,12 @@ public class MainController implements Initializable {
     private int priceratingSelected() {
         int priceratingSelected = priceratingComboBox.getValue().toString().length();
         System.out.println(priceratingSelected);
-        
-        if (priceratingSelected > 5)  {
+
+        if (priceratingSelected > 5) {
             return 0;
-        }
-        else {
+        } else {
             return priceratingSelected;
-        }        
+        }
     }
 
     private int partySizeSelected() {

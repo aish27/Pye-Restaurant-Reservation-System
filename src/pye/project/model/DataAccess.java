@@ -296,6 +296,7 @@ public class DataAccess {
             myStmt.setInt(4,reqTime);
             myStmt.setInt(5,reqPprice);
             myStmt.setInt(6,reqSeats);
+            System.out.println(myStmt);
             myRs = myStmt.executeQuery();
 
             while (myRs.next()) {
