@@ -3,6 +3,7 @@ package pye.project.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,9 +60,9 @@ public class ReservationManager
     /** */
      //public static ArrayList<Restaurant> searchRestaurants(String city, String cuisine, int time, int price, int seats) {
  
-    public static ArrayList<Restaurant> searchDatabaseForRestaurants(String city, String cuisine, int time, int price, int seats)
+    public static List<Restaurant> searchDatabaseForRestaurants(String city, String cuisine, int time, int price, int seats)
     {
-        return SearchEngine.searchRestaurants(city, cuisine, time,price,seats);
+        return SearchEngine.searchRestaurants(city, cuisine, time, price, seats);
     }
     
     /** */

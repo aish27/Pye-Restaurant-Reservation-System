@@ -7,6 +7,7 @@ package pye.project.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,7 +23,7 @@ import pye.project.model.Restaurant;
  */
 public class SearchResultController implements Initializable {
 
-    @FXML
+    /**@FXML
     TableView<ObservableIssue> searchResultTable;
     @FXML
     TableColumn<ObservableIssue, String> colRestaurant;
@@ -33,36 +34,20 @@ public class SearchResultController implements Initializable {
     @FXML
     TableColumn<ObservableIssue, String> colPrice;
     @FXML
-    TableColumn<ObservableIssue, String> colSelect;
+    TableColumn<ObservableIssue, String> colSelect;*/
+  
 
     public TableView getTableView() {
-        //ObservableList<Restaurant> data = FXCollections<Restaurant> sequence(
-        //                new Restaurant("Hello"),
-        //                TableView < Restaurant > tableView = new TableView<Restaurant>());
-        //tableView.setItems(data);
-
-        TableView<Restaurant> tableView = new TableView<>();
-        
-        
-        colRestaurant = new TableColumn("Restaurant");
-        colRestaurant.setText("dog");
-
-        return tableView;
+        return null;
 
     }
 
     /**
      * Initializes the controller class.
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }
-
-    private static class ObservableIssue {
-
-        public ObservableIssue() {
-        }
-    }
+    //@Override
+  public void initialize(URL url, ResourceBundle rb) {
+}
+ 
 
 }

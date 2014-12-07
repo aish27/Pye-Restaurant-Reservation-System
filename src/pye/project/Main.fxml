@@ -55,12 +55,12 @@
                                                 <Label text="Time:*" GridPane.rowIndex="3" />
                                                 <Label text="Cuisine:" GridPane.rowIndex="4" />
                                                 <Label text="Date:*" GridPane.rowIndex="2" />
-                                                <ComboBox fx:id="locationComboBox" prefHeight="26.0" prefWidth="198.0" promptText="Select Location" GridPane.columnIndex="1" />
+                                                <ComboBox fx:id="locationComboBox" editable="true" prefHeight="26.0" prefWidth="198.0" GridPane.columnIndex="1" />
                                                 <DatePicker GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                                <ComboBox fx:id="partysizeComboBox" prefHeight="26.0" prefWidth="198.0" promptText="Select Party Size " GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <ComboBox fx:id="partysizeComboBox" prefHeight="26.0" prefWidth="198.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                                 <HBox prefHeight="43.0" prefWidth="254.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                                     <children>
-                                                        <ComboBox fx:id="hrComboBox" prefHeight="26.0" prefWidth="75.0" promptText="HR" />
+                                                        <ComboBox fx:id="hrComboBox" prefHeight="26.0" prefWidth="75.0" />
                                                         <Label text="   :   ">
                                                             <font>
                                                                 <javafx.scene.text.Font name="System Bold" size="13.0" />
@@ -69,14 +69,14 @@
                                                                 <javafx.geometry.Insets top="5.0" />
                                                             </HBox.margin>
                                                         </Label>
-                                                        <ComboBox fx:id="minComboBox" prefHeight="26.0" prefWidth="85.0" promptText="MIN" />
-                                                        <ComboBox fx:id="amorpmComboBox" prefHeight="26.0" prefWidth="79.0" promptText="AM" />
+                                                        <ComboBox fx:id="minComboBox" prefHeight="26.0" prefWidth="85.0" />
+                                                        <ComboBox fx:id="amorpmComboBox" prefHeight="26.0" prefWidth="79.0" />
                                                     </children>
                                                 </HBox>
                                     
                                                 <Label text="Price Range:" GridPane.rowIndex="5" />
-                                                <ComboBox fx:id="priceratingComboBox" prefHeight="26.0" prefWidth="193.0" promptText="Price Rating " GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                                <ComboBox fx:id="cuisineComboBox" prefHeight="26.0" prefWidth="194.0" promptText="Select Cuisine" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                <ComboBox fx:id="priceratingComboBox" prefHeight="26.0" prefWidth="193.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                                <ComboBox fx:id="cuisineComboBox" prefHeight="26.0" prefWidth="194.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                                 <Button fx:id="button" layoutX="-9.0" layoutY="79.0" onAction="#searchButtonAction" text="Search Restaurants" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                                             </children>
                                             <opaqueInsets>

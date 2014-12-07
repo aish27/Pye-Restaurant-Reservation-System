@@ -48,7 +48,7 @@ public class EmailSender {
 			if (email != null)
 				{
 					msg = "You have a new Reservation for: \n" 
-							+ " Name: " + first + " " + last 
+							+ "  Name: " + first + " " + last 
 							+ ", Date: " + date 
 							+ ", At: "+ time 
 							+ ", For party of: "+ r.getPartySize();
@@ -124,8 +124,8 @@ public class EmailSender {
     public void setMessageText(String msgText) {
         this.msgText = msgText;
     }
- /*   
-    public static void main(String[] args) {
+   
+    public static void main(String[] args) throws Exception {
         EmailSender es = new EmailSender();
         DataAccess dao = new DataAccess();
         Reservation r;
@@ -140,7 +140,7 @@ public class EmailSender {
 			e.printStackTrace();
 		}        
       }
-*/
+
     
 
 

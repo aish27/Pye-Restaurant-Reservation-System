@@ -1,5 +1,6 @@
 package pye.project.model;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -8,6 +9,7 @@ import java.util.logging.Logger;
 /**
  *  */
 public class SearchEngine {
+    private static Object dao;
 
     static Reservation searchReservation(int ConfirmationNumber, String lastName) {
         DataAccess dao = null;
@@ -28,7 +30,70 @@ public class SearchEngine {
         return res;
     }
 
-    public int id;
+    /**public static ArrayList<Restaurant> searchRestaurants(String city, int time, int seats) {
+        DataAccess dao = null;
+        try {
+            dao = new DataAccess();
+        } catch (Exception ex) {
+            Logger.getLogger(SearchEngine.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ArrayList<Restaurant> list = null;
+        try {
+            //System.out.println(city+","+cuisine+","+time+","+price+","+","+seats);
+            list = dao.searchRestaurants(city, time, seats);
+        } catch (Exception ex) {
+            Logger.getLogger(SearchEngine.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (Restaurant d : list) {
+            System.out.println(list.toString());
+        }
+
+        return list;
+    }*/
+    
+    /**public static ArrayList<Restaurant> searchRestaurants(String city, int time, int price, int seats) {
+        DataAccess dao = null;
+        try {
+            dao = new DataAccess();
+        } catch (Exception ex) {
+            Logger.getLogger(SearchEngine.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ArrayList<Restaurant> list = null;
+        try {
+            //System.out.println(city+","+cuisine+","+time+","+price+","+","+seats);
+            list = dao.searchRestaurants(city, time, price, seats);
+        } catch (Exception ex) {
+            Logger.getLogger(SearchEngine.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (Restaurant d : list) {
+            System.out.println(list.toString());
+        }
+
+        return list;
+    }*/
+        
+       /** public static ArrayList<Restaurant> searchRestaurants(String city, String cuisine, int time, int seats) {
+        DataAccess dao = null;
+        try {
+            dao = new DataAccess();
+        } catch (Exception ex) {
+            Logger.getLogger(SearchEngine.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ArrayList<Restaurant> list = null;
+        try {
+            //System.out.println(city+","+cuisine+","+time+","+price+","+","+seats);
+            list = dao.searchRestaurants(city, time, seats);
+        } catch (Exception ex) {
+            Logger.getLogger(SearchEngine.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (Restaurant d : list) {
+            System.out.println(list.toString());
+        }
+
+        return list;
+    }*/
+        
+
 
     /**
      * Searches the database and returns all the restaurants that fit the
@@ -36,10 +101,9 @@ public class SearchEngine {
      */
     // public List<Restaurant> searchRestaurants(String reqLocation, String reqCuisine, int reqTime,
     //        int reqPprice, int reqSeats)
-    public static ArrayList<Restaurant> searchRestaurants(String city, String cuisine, int time, int price, int seats) {
+    //
+ public static ArrayList<Restaurant> searchRestaurants(String city, String cuisine, int time, int price, int seats) {
     //use the parameters to search the database and return an arraylist of 
-
-        // Call DataAccess and Match Method Signitures
         DataAccess dao = null;
         try {
             dao = new DataAccess();
@@ -58,8 +122,13 @@ public class SearchEngine {
         }
 
         return list;
-        //return null;
     }
+    
+    /**public List<Restaurant> searchRestaurants(String city, String cuisine, int time, int price, int seats) throws SQLException {
+        dao = new DataAccess();
+        List <Restaurant> list = dao.searchRestaurants(city, cuisine, time, price, seats);
+        for (Restaurant d : list); 
+    }*/
 
     /**
      *
@@ -68,7 +137,7 @@ public class SearchEngine {
      * @return
      * @throws Exception
      */
-    static Reservation searchReservation(int ConfirmationNumber) throws Exception {
+    public static Reservation searchReservation(int ConfirmationNumber) throws Exception {
 
         DataAccess dao = new DataAccess();
         Reservation res = dao.searchReservation(ConfirmationNumber);
@@ -85,5 +154,7 @@ public class SearchEngine {
         // Call DataAccess and Match Method Signitures
         return null;
     }
+
+
 
 }

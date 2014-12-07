@@ -5,11 +5,15 @@
  */
 package pye.project.controller;
 
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.time;
+
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import static java.util.Optional.empty;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -58,71 +62,52 @@ public class MainController implements Initializable {
     public Label systemFeedbackLookupReservation;
     @FXML
     public Label confLabel;
-    //private Reservation res;
 
     @FXML
-    private void searchButtonAction(ActionEvent event) {
-        //openResults(event);
-        systemFeedbackLookupReservation.setText(null);
-        //ComboBox.GetItemText
-        if (locationComboBox.getValue().toString() != null && !partysizeComboBox.getValue().toString().isEmpty()) {
+    private void searchButtonAction(ActionEvent event) throws Exception {
+        String city = locationSelected();
+        String cuisine = cuisineSelected();
+        int time = timeSelected();
+        int price = priceratingSelected();
+        int seats = partySizeSelected();
 
-            System.out.println("Search Results!");
+        openResults(event);
+        List <Restaurant> list = SearchEngine.searchRestaurants(city, cuisine, time, price, seats);{
+        for (Restaurant d : list); 
+        }   
 
-            String locationSelected = locationComboBox.getValue().toString();
-            System.out.println(locationSelected);
-
-            String partySizeSelected = partysizeComboBox.getValue().toString();
-            System.out.println(partySizeSelected);
-
-            //@aayush, party size returns zero
-            //  add date picker
-            String hrSelected = hrComboBox.getValue().toString();
-            System.out.println(hrSelected);
-
-            String minSelected = minComboBox.getValue().toString();
-            System.out.println(minSelected);
-
-            String amorpmSelected = amorpmComboBox.getValue().toString();
-            System.out.println(amorpmSelected);
-
-            int temptesttime = 1500;
-            System.out.println(temptesttime);
-
-            //Format the Date and Time
-            String cuisineSelected = cuisineComboBox.getValue().toString();
-            System.out.println(cuisineSelected);
-
-            String priceratingSelected = priceratingComboBox.getValue().toString();
-            System.out.println(priceratingSelected);
-
-            //convert values
-            String city = locationSelected;
-            String cuisine = cuisineSelected;
-            int time = 150000;
-            int price = 5;
-            int seats = 1;
-            int conf = (int) (Math.random() * 10000);;
-            Date date = new Date(2014, 12, 05);
-
-            ArrayList<Restaurant> list = SearchEngine.searchRestaurants(city, cuisine, time, price, seats);
-
-        } else {
-            systemFeedbackLookupReservation.setText("Please complete the form.");
+       /** if (price == 0) {
+            if (cuisine == "Select Cuisine") {
+                System.out.println("price is zero and cusine is null 1,3,5"); //worked
+            } 
+        else {
+                System.out.println("price is zero and cuisine is not null 1,2,3,5");
         }
+
+        } else { 
+            if (cuisine == "Select Cuisine") {
+                System.out.println("price is nonzero and cusine is null 1,3,4,5"); //worked
+                List <Restaurant> list = SearchEngine.searchRestaurants(city, time, price, seats);{
+                for (Restaurant d : list); 
+                }    
+                //System.out.println(list2.toString()); 
+            }    else  {
+                System.out.println("price is nonzero and cusine is not null all else do 4(1, 2, 3, 4, 5"); //worked
+                //List <Restaurant> list = SearchEngine.searchRestaurants(city, cuisine, time, price, seats);{
+		//for (Restaurant d : list) ;
+                }
+            
+        }*/
     }
 
     @FXML
     private void lookupButtonAction(ActionEvent event) throws Exception {
-        System.out.println("Reservation Lookup");
         systemFeedbackLookupReservation.setText(null);
         if (lastNameLookupText.getText() != null && !lastNameLookupText.getText().isEmpty()) {
-            System.out.println("Reservation Lookup");
             String lastName = lastNameLookupText.getText();
             System.out.println(lastName);
             String ConfNumber = confirmationLookupText.getText();
             int ConfirmationNumber = Integer.parseInt(ConfNumber);
-            //convert String to Int
             System.out.println(ConfirmationNumber);
 
             //TESTING:
@@ -149,7 +134,7 @@ public class MainController implements Initializable {
              * res.getCreatedBy().getLastName() + "/n");
              */
             openReservation(event);
-              //results.reservationContentPane.confLabel.setText(res.ConfirmationNumber);
+            //results.reservationContentPane.confLabel.setText(res.ConfirmationNumber);
             //results.reservationContentPane.
             // and so on
 
@@ -191,17 +176,72 @@ public class MainController implements Initializable {
         }
     }
 
+    private String locationSelected() {
+           String locationSelected = locationComboBox.getValue().toString();
+           System.out.println(locationSelected);    
+           return locationSelected;
+    }
+
+    private String cuisineSelected() {
+        String cuisineSelected = cuisineComboBox.getValue().toString();
+        System.out.println(cuisineSelected);
+        return cuisineSelected;
+    }
+
+    private int timeSelected() throws ParseException {
+        String hrSelected = hrComboBox.getValue().toString();
+        System.out.println(hrSelected);
+
+        String minSelected = minComboBox.getValue().toString();
+        System.out.println(minSelected);
+
+        String amorpmSelected = amorpmComboBox.getValue().toString();
+        System.out.println(amorpmSelected);
+
+        String temptime = hrSelected + ":" + minSelected + ":" + "00 " + amorpmSelected;
+        System.out.println(temptime);
+
+        String timestring = temptime;
+        Date timeformat = (Date) new SimpleDateFormat("hh:mm:ss aa").parse(timestring);
+        String temptime2 = new SimpleDateFormat("Hmmss").format(timeformat);
+        int timeSelected = Integer.parseInt(temptime2);
+        System.out.println(timeSelected);
+        return timeSelected;
+
+    }
+
+    private int priceratingSelected() {
+        int priceratingSelected = priceratingComboBox.getValue().toString().length();
+        System.out.println(priceratingSelected);
+        
+        if (priceratingSelected > 5)  {
+            return 0;
+        }
+        else {
+            return priceratingSelected;
+        }        
+    }
+
+    private int partySizeSelected() {
+        String partySizeSelected = partysizeComboBox.getValue().toString();
+        int seatsRequested = Integer.parseInt(partySizeSelected);
+        System.out.println(seatsRequested);
+        return seatsRequested;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //ObservableList<String> locationlist = null;
         // TODO
         locationComboBox.getItems().addAll(
+                "Select City",
                 "Cupertino",
                 "Mountain View",
                 "Santa Clara",
                 "San Francisco",
                 "San Jose",
                 "Sunnyvale");
+        locationComboBox.setValue("Select City");
 
         partysizeComboBox.getItems().addAll(
                 "1",
@@ -214,6 +254,7 @@ public class MainController implements Initializable {
                 "8",
                 "9",
                 "10");
+        partysizeComboBox.setValue("1");
 
         hrComboBox.getItems().addAll(
                 "7",
@@ -228,16 +269,20 @@ public class MainController implements Initializable {
                 "4",
                 "5",
                 "6");
+        hrComboBox.setValue("6");
 
         minComboBox.getItems().addAll(
                 "00",
                 "30");
+        minComboBox.setValue("00");
 
         amorpmComboBox.getItems().addAll(
                 "AM",
                 "PM");
+        amorpmComboBox.setValue("PM");
 
         cuisineComboBox.getItems().addAll(
+                "Select Cuisine",
                 "American",
                 "Chinese",
                 "French",
@@ -247,13 +292,16 @@ public class MainController implements Initializable {
                 "Pakistani",
                 "Persian",
                 "Vietnamese");
+        cuisineComboBox.setValue("Select Cuisine");
 
         priceratingComboBox.getItems().addAll(
+                "Select Price",
                 "$",
                 "$$",
                 "$$$",
-                "$$$$",
-                "$$$$$");
+                "$$$$");
+        priceratingComboBox.setValue("Select Price");
 
     }
+
 }

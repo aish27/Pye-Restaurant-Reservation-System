@@ -7,8 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="pye.project.controller.ShareReservationController">
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pye.project.controller.ShareReservationController">
    <children>
       <GridPane layoutX="83.0" layoutY="100.0" prefHeight="300.0" prefWidth="329.0">
         <columnConstraints>
@@ -23,15 +22,15 @@
         </rowConstraints>
          <children>
             <Label />
-            <TextField />
-            <TextField fx:id = "email1" GridPane.rowIndex="1" />
-            <TextField fx:id = "email2" GridPane.rowIndex="2" />
-            <TextField fx:id = "email3" GridPane.rowIndex="3" />
-            <TextField fx:id = "email4" GridPane.rowIndex="4" />
+            <TextField fx:id="email1" />
+            <TextField fx:id="email2" GridPane.rowIndex="1" />
+            <TextField fx:id="email3" GridPane.rowIndex="2" />
+            <TextField fx:id="email4" GridPane.rowIndex="3" />
+            <TextField fx:id="email5" GridPane.rowIndex="4" />
          </children>
       </GridPane>
       <Text layoutX="83.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Email Address:" />
-      <Button layoutX="313.0" layoutY="576.0" mnemonicParsing="false" text="Notify Guests" />
+      <Button layoutX="313.0" layoutY="576.0" mnemonicParsing="false" onAction="#shareButtonAction" text="Notify Guests" />
       <Button layoutX="235.0" layoutY="576.0" mnemonicParsing="false" text="Go Back" />
    </children>
 </AnchorPane>

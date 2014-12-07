@@ -10,8 +10,8 @@ public class DataAccessTester {
 		
 		DataAccess dao = new DataAccess();
 		//Restaurant Vars
-		String city = "";
-		String cuisine = "mexican";
+		String city = "Sunnyvale";
+		String cuisine = "Indian";
 		int time = 150000;
 		int price = 5;
 		int seats = 1;

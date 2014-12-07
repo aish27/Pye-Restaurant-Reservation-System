@@ -28,7 +28,7 @@ public class DataAccess {
 
         // get db properties
         Properties props = new Properties();
-        props.load(new FileInputStream("../demo.properties"));
+        props.load(new FileInputStream("demo.properties"));
 
         String user = props.getProperty("user");
         String password = props.getProperty("password");
@@ -208,37 +208,54 @@ public class DataAccess {
      * @return List of Restaurants found
      * @throws Exception
      */
-    public ArrayList<Restaurant> searchRestaurants(String reqLocation, String reqCuisine, int reqTime,
-            int reqPprice, int reqSeats) throws Exception {
+    /**
+     * public ArrayList<Restaurant> searchRestaurants(String reqLocation, String
+     * reqCuisine, int reqTime, int reqPprice, int reqSeats) throws Exception {
+     * ArrayList<Restaurant> list = new ArrayList<>();
+     *
+     * PreparedStatement myStmt = null; ResultSet myRs = null;
+     *
+     * //check for any empty or null values before sending it to database if
+     * (reqLocation.length() == 0) { reqLocation += "%"; } if
+     * (reqCuisine.length() == 0) { reqCuisine += "%"; } if (reqTime == 0) {
+     * reqTime += 200000;	// set default for 8PM } try {
+     *
+     * myStmt = myConn.prepareStatement("select * from restaurants where " +
+     * "LocationCity like ? AND " + "cuisine like ? AND " + "openTime <= ? AND CloseTime
+     * >= ? AND " + "price like ? AND " + "seats >= ?");
+     *
+     *
+     * myStmt.setString(1, reqLocation); myStmt.setString(2, reqCuisine);
+     * myStmt.setInt(3, reqTime); myStmt.setInt(4, reqTime); myStmt.setInt(5,
+     * reqPprice); myStmt.setInt(6, reqSeats); myRs = myStmt.executeQuery();
+     *
+     * while (myRs.next()) { Restaurant tempRestaurant =
+     * convertRowToRestaurant(myRs); list.add(tempRestaurant); }
+     *
+     * return list; } finally { close(myStmt, myRs); }
+    }
+     */
+    /**public ArrayList<Restaurant> searchRestaurants(String reqLocation, int reqTime, int reqSeats) throws SQLException {
         ArrayList<Restaurant> list = new ArrayList<>();
 
         PreparedStatement myStmt = null;
         ResultSet myRs = null;
 
-        //check for any empty or null values before sending it to database
-        if (reqLocation.length() == 0) {
-            reqLocation += "%";
-        }
-        if (reqCuisine.length() == 0) {
-            reqCuisine += "%";
-        }
         if (reqTime == 0) {
             reqTime += 200000;				// set default for 8PM
         }
         try {
+
             myStmt = myConn.prepareStatement("select * from restaurants where "
                     + "LocationCity like ? AND "
                     + "cuisine like ? AND "
                     + "openTime <= ? AND CloseTime >= ? AND "
-                    + "price >= ? AND "
+                    + "price like ? AND "
                     + "seats >= ?");
 
             myStmt.setString(1, reqLocation);
-            myStmt.setString(2, reqCuisine);
-            myStmt.setInt(3, reqTime);
-            myStmt.setInt(4, reqTime);
-            myStmt.setInt(5, reqPprice);
-            myStmt.setInt(6, reqSeats);
+            myStmt.setInt(2, reqTime);
+            myStmt.setInt(3, reqSeats);
             myRs = myStmt.executeQuery();
 
             while (myRs.next()) {
@@ -248,9 +265,52 @@ public class DataAccess {
 
             return list;
         } finally {
+
+            close(myStmt, myRs);
+        }
+
+    }*/
+    
+
+    public ArrayList<Restaurant> searchRestaurants(String reqLocation, String reqCuisine, int reqTime, int reqPprice, int reqSeats) throws SQLException {
+        ArrayList<Restaurant> list = new ArrayList<>();
+
+        PreparedStatement myStmt = null;
+        ResultSet myRs = null;
+
+        if (reqTime == 0) {
+            reqTime += 200000;				// set default for 8PM
+        }
+        try {
+
+            myStmt = myConn.prepareStatement("select * from restaurants where "
+                    + "LocationCity like ? AND "
+                    + "cuisine like ? AND "
+                    + "openTime <= ? AND CloseTime >= ? AND "
+                    + "price like ? AND "
+                    + "seats >= ?");
+            
+            myStmt.setString(1,reqLocation);
+            myStmt.setString(2,reqCuisine);
+            myStmt.setInt(3, reqTime);
+            myStmt.setInt(4,reqTime);
+            myStmt.setInt(5,reqPprice);
+            myStmt.setInt(6,reqSeats);
+            myRs = myStmt.executeQuery();
+
+            while (myRs.next()) {
+                Restaurant tempRestaurant = convertRowToRestaurant(myRs);
+                list.add(tempRestaurant);
+            }
+
+            return list;
+        } finally {
+
             close(myStmt, myRs);
         }
     }
+    
+    
 
     /**
      * Converts Time object from database to an int. Parse the object as string,
@@ -427,66 +487,63 @@ public class DataAccess {
     }
 
     Reservation searchReservation(int ConfirmationNumber) {
-        
-                Reservation tempReservation = null;
-        PreparedStatement myStmt = null;
-        ResultSet myRs = null;
 
-        try {
-                    try {
-                        myStmt = myConn.prepareStatement("select * from reservations where confirmation = ?");
-                    } catch (SQLException ex) {
-                        Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                    try {
-                        myStmt.setInt(1, ConfirmationNumber);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    try {
-                        myRs = myStmt.executeQuery();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                    try {
-                        while (myRs.next()) {
-                            tempReservation = convertRowToReservation(myRs);
-                        }       } catch (SQLException ex) {
-                        Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-            return tempReservation;
-        } finally {
-                    try {
-                        close(myStmt, myRs);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-        }
-    }
-        
-   
-
-   /** Reservation searchReservation(int ConfirmationNumber) throws SQLException {
         Reservation tempReservation = null;
         PreparedStatement myStmt = null;
         ResultSet myRs = null;
 
         try {
-            myStmt = myConn.prepareStatement("select * from reservations where confirmation = ?");
+            try {
+                myStmt = myConn.prepareStatement("select * from reservations where confirmation = ?");
+            } catch (SQLException ex) {
+                Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-            myStmt.setInt(1, ConfirmationNumber);
-            myRs = myStmt.executeQuery();
+            try {
+                myStmt.setInt(1, ConfirmationNumber);
+            } catch (SQLException ex) {
+                Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                myRs = myStmt.executeQuery();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-            while (myRs.next()) {
-                tempReservation = convertRowToReservation(myRs);
+            try {
+                while (myRs.next()) {
+                    tempReservation = convertRowToReservation(myRs);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
             }
             return tempReservation;
         } finally {
-            close(myStmt, myRs);
+            try {
+                close(myStmt, myRs);
+            } catch (SQLException ex) {
+                Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+    }
 
-    }*/
+    public Reservation getReservation(int i) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
+    /**
+     * Reservation searchReservation(int ConfirmationNumber) throws SQLException
+     * { Reservation tempReservation = null; PreparedStatement myStmt = null;
+     * ResultSet myRs = null;
+     *
+     * try { myStmt = myConn.prepareStatement("select * from reservations where
+     * confirmation = ?");
+     *
+     * myStmt.setInt(1, ConfirmationNumber); myRs = myStmt.executeQuery();
+     *
+     * while (myRs.next()) { tempReservation = convertRowToReservation(myRs); }
+     * return tempReservation; } finally { close(myStmt, myRs); }
+     *
+     * }
+     */
 }
