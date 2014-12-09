@@ -1,0 +1,96 @@
+.root{
+    -fx-font-size: 13pt;
+    -fx-font-family: "DIN Condensed Bold";
+    -fx-base: rgb(66, 64, 64);
+    -fx-background: rgb(223, 39, 80);   
+    
+}
+
+.split-pane *.split-pane-divider {
+    -fx-padding: 0 0 0 0;
+}
+
+.table-row-cell:empty {
+    -fx-background-color: #E2E1E0;
+}
+
+.table-view {
+    -fx-table-cell-border-color:derive(-fx-base,+50%);
+    -fx-table-header-border-color:derive(-fx-base,+40%);
+}
+
+.label {
+    -fx-font-size: 9pt;
+    -fx-font-family: "DIN Condensed Bold";
+    -fx-text-fill: white;
+    -fx-opacity: 0.6;
+}
+
+.label-header {
+    -fx-font-size: 15pt;
+    -fx-font-family: "DIN Condensed Bold";
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+
+.label-header-body {
+    -fx-font-size: 15pt;
+    -fx-font-family: "DIN Condensed Bold";
+    -fx-text-fill: rgb(223, 39, 80);
+    -fx-opacity: 1;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.label-black{
+    -fx-text-fill: black;
+}
+
+.label-h2{
+    -fx-text-fill: black;
+}
+
+
+.main {
+    -master-color: black;
+    -fx-font-size: 12px;
+}
+
+.split {
+    -fx-padding: 0;
+    -fx-border-width: 0;
+}
+
+.pane {
+    -fx-background: #E2E1E0;
+    -fx-text-fill: black;
+}
+
+.tabpane {
+    -fx-background-color: rgb(223, 39, 80);
+    
+}
+
+.vbox {
+    -fx-background-color: #2f4f4f;
+    -fx-padding: 15;
+    -fx-spacing: 10;
+}
+
+.vbox-tab {
+    -fx-background-color: rgb(223, 39, 80);
+}
+
+.toggle-button {
+ 
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+}
+
+.toggle-button:selected {
+  -fx-background-color: #9F9F9F;
+}
+
+

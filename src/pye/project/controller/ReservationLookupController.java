@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -20,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import pye.project.model.Reservation;
 import pye.project.model.ReservationManager;
+import javafx.scene.control.*;
 
 /**
  * FXML Controller class
@@ -50,6 +52,8 @@ public class ReservationLookupController implements Initializable {
     private Label reservationMadeLabel;
     @FXML
     private Label partySizeLabel;
+    @FXML
+    private Button cancelReservationButton;
 
     public ReservationLookupController() {
         this.res = null;
@@ -105,6 +109,7 @@ public class ReservationLookupController implements Initializable {
             e.printStackTrace();
         }
     }
+    
 
     public void openEditReservation(Event event) {
         try {
@@ -125,14 +130,15 @@ public class ReservationLookupController implements Initializable {
              //res = ReservationManager.displayReservation(1111, "Doe");
 
             // comment this out later after it all works
-           /** System.out.println("Confirmation Number: " + res.ConfirmationNumber + "\n");
-            if (res.restaurant == null) {
-                res.restaurant.setName("Max's");
-                System.out.println(res.restaurant.getName());
-            } else {
-                System.out.println("Restaurant: " + res.restaurant.getName() + "\n");
-            }*/
-
+            /**
+             * System.out.println("Confirmation Number: " +
+             * res.ConfirmationNumber + "\n"); if (res.restaurant == null) {
+             * res.restaurant.setName("Max's");
+             * System.out.println(res.restaurant.getName()); } else {
+             * System.out.println("Restaurant: " + res.restaurant.getName() +
+             * "\n");
+            }
+             */
             System.out.println("Location: " + res.restaurant.getCity());
             System.out.println(res.restaurant.getPhoneNumber());
             System.out.println("Reservation Time: " + res.getReqTime() + "\n");
@@ -174,5 +180,7 @@ public class ReservationLookupController implements Initializable {
 //cut from here
         //showReservationDetails(res);
     }
+
+
 
 }

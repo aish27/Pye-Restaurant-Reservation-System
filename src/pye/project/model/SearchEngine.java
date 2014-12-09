@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 /**
  *  */
 public class SearchEngine {
-    private static Object dao;
+    private static DataAccess dao;
 
     static Reservation searchReservation(int ConfirmationNumber, String lastName) {
         DataAccess dao = null;
@@ -123,12 +123,77 @@ public class SearchEngine {
 
         return list;
     }
+ 
+ public static List<Restaurant> searchRestaurants(String city, int time, int seats) {
+     DataAccess dao = null;
+     try {
+         dao = new DataAccess();
+         
+     } catch (Exception ex) {
+         Logger.getLogger(SearchEngine.class.getName()).log(Level.SEVERE, null, ex);
+     }
+     ArrayList<Restaurant> list = null;
+     try {
+         System.out.println(city+","+time+","+seats);
+         list = dao.searchRestaurants(city, time, seats);
+     } catch (Exception ex) {
+         Logger.getLogger(SearchEngine.class.getName()).log(Level.SEVERE, null, ex);
+     }
+     for (Restaurant d : list) {
+            System.out.println(list.toString());
+        }
+
+        return list; 
+    }
+ 
+ 
+ public static List<Restaurant> searchRestaurants(String city, String cuisine, int time, int seats) {
+     DataAccess dao = null;
+     try {
+         dao = new DataAccess();
+         
+     } catch (Exception ex) {
+         Logger.getLogger(SearchEngine.class.getName()).log(Level.SEVERE, null, ex);
+     }
+     ArrayList<Restaurant> list = null;
+     try {
+         System.out.println(city+","+cuisine+","+time+","+seats);
+            list = dao.searchRestaurants(city, cuisine, time, seats);
+     } catch (Exception ex) {
+         Logger.getLogger(SearchEngine.class.getName()).log(Level.SEVERE, null, ex);
+     }
+     for (Restaurant d : list) {
+            System.out.println(list.toString());
+        }
+
+        return list; 
+    }
+ 
+ public static List<Restaurant> searchRestaurants(String city, int time, int price, int seats) {
+     DataAccess dao = null;
+     try {
+         dao = new DataAccess();
+         
+     } catch (Exception ex) {
+         Logger.getLogger(SearchEngine.class.getName()).log(Level.SEVERE, null, ex);
+     }
+     ArrayList<Restaurant> list = null;
+     try {
+         System.out.println(city+","+time+","+price+","+","+seats);
+            list = dao.searchRestaurants(city, time, price, seats);
+     } catch (Exception ex) {
+         Logger.getLogger(SearchEngine.class.getName()).log(Level.SEVERE, null, ex);
+     }
+     for (Restaurant d : list) {
+            System.out.println(list.toString());
+        }
+
+        return list; 
+    }
+ 
+ 
     
-    /**public List<Restaurant> searchRestaurants(String city, String cuisine, int time, int price, int seats) throws SQLException {
-        dao = new DataAccess();
-        List <Restaurant> list = dao.searchRestaurants(city, cuisine, time, price, seats);
-        for (Restaurant d : list); 
-    }*/
+
 
     /**
      *
@@ -154,6 +219,21 @@ public class SearchEngine {
         // Call DataAccess and Match Method Signitures
         return null;
     }
+
+    public static Person checkPerson(String email) {
+
+        Person per = null;
+        try {
+             dao = new DataAccess();
+             per = dao.checkPersonbyEmail(email);
+        } catch (Exception ex) {
+            Logger.getLogger(SearchEngine.class.getName()).log(Level.SEVERE, null, ex);
+        }
+  
+        return per;
+    }
+
+    
 
 
 

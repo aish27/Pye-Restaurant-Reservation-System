@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -8,92 +9,101 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pye.project.controller.BookReservationController">
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="794.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pye.project.controller.BookReservationController">
     <children>
-        <Label text="Book Reservation  " />
-      <GridPane prefHeight="91.0" prefWidth="467.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="223.0" AnchorPane.topAnchor="60.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <HBox layoutX="20.0" layoutY="60.0">
          <children>
-            <Label text="Restaurant Information:">
-               <font>
-                  <Font name="System Bold Italic" size="13.0" />
-               </font>
-            </Label>
-            <Label text="Name:" GridPane.rowIndex="1" />
-            <Label text="Located at:" GridPane.rowIndex="2" />
-            <Label text="Phone Number:" GridPane.rowIndex="3" />
-            <Label fx:id="selectedRestaurantName" prefHeight="16.0" prefWidth="162.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="selectedRestaurantLocation" prefHeight="16.0" prefWidth="189.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="selectedRestaurantPhoneNumber" prefHeight="16.0" prefWidth="182.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ImageView fitHeight="26.0" fitWidth="31.0" layoutX="143.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../Pye_2/img/book.png" />
+               </image>
+            </ImageView>
+              <Label styleClass="label-header-body" stylesheets="@css/main.css" text="Book Reservation  " AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="60.0">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin></Label>
          </children>
-      </GridPane>
-        <GridPane layoutX="10.0" layoutY="49.0" prefHeight="329.0" prefWidth="467.0" AnchorPane.topAnchor="200.0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            </rowConstraints>
-            <children>
-                <Label text="Time:" GridPane.rowIndex="1" />
-                <Label text="Date:" GridPane.rowIndex="2" />
-                <Label text="Contact Information" GridPane.rowIndex="3">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font></Label>
-                <Label text="First Name:" GridPane.rowIndex="4" />
-                <Label text="Last Name:" GridPane.rowIndex="5" />
-                <Label text="Email Address:" GridPane.rowIndex="6" />
-                <Label text="Party Size:" />
-                <Label GridPane.columnIndex="1" />
-                <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                    <children>
-                        <ComboBox fx:id="selectedHour" prefHeight="24.0" prefWidth="49.0" promptText="HR" />
-                        <Label text="   :   ">
-                            <font>
-                                <Font name="System Bold" size="13.0" />
-                            </font>
-                            <HBox.margin>
-                                <Insets top="5.0" />
-                            </HBox.margin>
-                        </Label>
-                        <ComboBox fx:id="selectedMin" prefHeight="26.0" prefWidth="51.0" promptText="MIN" />
-                        <ChoiceBox prefHeight="23.0" prefWidth="52.0">
-                            <HBox.margin>
-                                <Insets left="10.0" />
-                            </HBox.margin>
-                        </ChoiceBox>
-                    </children>
-                </HBox>
-                <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <ComboBox prefWidth="150.0" GridPane.columnIndex="1" />
-            <DatePicker fx:id="selectedDate" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            </children>
-        </GridPane>
-      <VBox layoutX="352.0" layoutY="565.0" spacing="20.0" AnchorPane.bottomAnchor="259.0" AnchorPane.topAnchor="565.0">
+      </HBox>
+      <VBox layoutX="9.96399974822998" layoutY="60.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0">
          <children>
-            <Button layoutX="350.0" layoutY="254.0" mnemonicParsing="false" text="Make Reservation" />
-              <Button layoutX="378.0" layoutY="287.0" mnemonicParsing="false" onAction="#goBackButtonAction" text="Go Back" />
+            <GridPane prefHeight="91.0" prefWidth="467.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="223.0" AnchorPane.topAnchor="60.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label styleClass="label-h2" text="Restaurant Information:">
+                     <font>
+                        <Font name="System Bold Italic" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label styleClass="label-black" stylesheets="@css/main.css" text="Name:" GridPane.rowIndex="1" />
+                  <Label styleClass="label-black" stylesheets="@css/main.css" text="Located at:" GridPane.rowIndex="2" />
+                  <Label styleClass="label-black" stylesheets="@css/main.css" text="Phone Number:" GridPane.rowIndex="3" />
+                  <Label fx:id="selectedRestaurantName" prefHeight="16.0" prefWidth="162.0" styleClass="label-black" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="selectedRestaurantLocation" prefHeight="16.0" prefWidth="189.0" styleClass="label-black" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="selectedRestaurantPhoneNumber" prefHeight="16.0" prefWidth="182.0" styleClass="label-black" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+              <GridPane layoutX="10.0" layoutY="49.0" prefHeight="329.0" prefWidth="467.0" AnchorPane.topAnchor="200.0">
+                  <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  </rowConstraints>
+                  <children>
+                      <Label styleClass="label-black" stylesheets="@css/main.css" text="Time:" GridPane.rowIndex="2" />
+                      <Label styleClass="label-black" stylesheets="@css/main.css" text="Date:" GridPane.rowIndex="3" />
+                      <Label styleClass="label-black" stylesheets="@css/main.css" text="First Name:" GridPane.rowIndex="4" />
+                      <Label styleClass="label-black" stylesheets="@css/main.css" text="Last Name:" GridPane.rowIndex="5" />
+                      <Label styleClass="label-black" stylesheets="@css/main.css" text="Email Address:" GridPane.rowIndex="6" />
+                      <Label styleClass="label-black" stylesheets="@css/main.css" text="Party Size:" GridPane.rowIndex="1" />
+                      <Label GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                      <HBox prefHeight="47.0" prefWidth="291.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                          <children>
+                              <ComboBox fx:id="hrsComboBox" prefHeight="26.0" prefWidth="63.0" />
+                              <ComboBox fx:id="minsComboBox" prefHeight="26.0" prefWidth="66.0" />
+                        <ComboBox fx:id="amorpmsComboBox" prefHeight="26.0" prefWidth="85.0" />
+                          </children>
+                      </HBox>
+                  <ComboBox fx:id="partysizeComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <DatePicker fx:id="selectedDate" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="firstNameText" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="lastNameText" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <TextField fx:id="emailText" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <Label styleClass="label-h2" text="Enter the Required Information:">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  </children>
+              </GridPane>
+            <VBox layoutX="352.0" layoutY="565.0" spacing="20.0" AnchorPane.bottomAnchor="259.0" AnchorPane.topAnchor="565.0">
+               <children>
+                  <Button fx:id="bookNowButton" contentDisplay="CENTER" layoutX="350.0" layoutY="254.0" mnemonicParsing="false" onAction="#bookNowButtonAction" text="Make Reservation">
+                     <VBox.margin>
+                        <Insets left="360.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </VBox>
          </children>
       </VBox>
     </children>

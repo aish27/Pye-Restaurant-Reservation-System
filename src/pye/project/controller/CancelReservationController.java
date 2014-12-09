@@ -13,7 +13,10 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -22,30 +25,33 @@ import javafx.scene.control.Label;
  */
 public class CancelReservationController implements Initializable {
 
-    //@FXML
+    @FXML
     public Label cancelResLabel;
+    @FXML
+    private AnchorPane reservationContentPane;
+    @FXML
+    private Button cancelButton;
+    @FXML
+    private Button noButton;
 
     @FXML
     private void cancelButtonAction(ActionEvent event) {
-        System.out.println("Update and Mark my Cancelation");
-        // @aayush
-        // here we want to set the confrmation number to -1
-        // this is a terrible hack 
-        // ReservationManager.cancelReservationInSystem(ConfirmationNumber);
         cancelResChanger(event);
-
     }
 
     @FXML
     private void noButtonAction(ActionEvent event) {
-        System.out.println("Exit, without canceling.");
+        cancelButton.setVisible(false);
+        noButton.setVisible(false);
+        cancelResLabel.setText(" ");
     }
 
     public void cancelResChanger(Event event) {
         cancelResLabel.setText("Your Reservation Successfully Deleted!");
-        //cancelButton.hide();
-
+        cancelButton.setVisible(false);
+        noButton.setVisible(false);
     }
+
 
     /**
      * Initializes the controller class.

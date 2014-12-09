@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.shape.*?>
 <?import java.lang.*?>
@@ -8,25 +10,42 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pye.project.controller.SearchResultController">
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pye.project.controller.SearchResultController">
    <children>
-      <TableView fx:id="searchResultTable" layoutX="8.0" layoutY="41.0" prefHeight="359.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
-        <columns>
-          <TableColumn fx:id="colResturant" prefWidth="118.0" text="Restaurant" />
-          <TableColumn fx:id="colCuisine" prefWidth="74.0" text="Cuisine" />
-            <TableColumn fx:id="colAddress" prefWidth="250.0" text="Address" />
-            <TableColumn fx:id="colPrice" minWidth="0.0" prefWidth="113.0" text="Price" />
-            <TableColumn fx:id="colSelect" prefWidth="133.0" text="Select" />
-        </columns>
-      </TableView>
-      <HBox prefHeight="41.0" prefWidth="800.0">
-         <children>
-            <Label text="This Lable will be hidden and display messages. &quot;No Results Found, Here are some recommendations&quot;">
-               <HBox.margin>
-                  <Insets top="10.0" />
-               </HBox.margin>
-            </Label>
-         </children>
-      </HBox>
+      <SplitPane dividerPositions="0.8538681948424068" orientation="VERTICAL" prefHeight="700.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane fx:id="searchContentPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <HBox layoutX="-1.0" layoutY="65.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="65.0">
+                     <children>
+                        <ImageView fitHeight="26.0" fitWidth="31.0" layoutX="-1.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../Pye_2/img/book.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="29.0" layoutY="14.0" styleClass="label-header-body" stylesheets="@css/main.css" text="Restaurants Availiable " AnchorPane.topAnchor="65.0">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <TableView fx:id="searchResultTable" layoutY="122.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="122.0">
+                     <effect>
+                        <Blend mode="LIGHTEN" />
+                     </effect>
+                  </TableView>
+               </children>
+               <padding>
+                  <Insets top="60.0" />
+               </padding>
+            </AnchorPane>
+          <AnchorPane fx:id="controlsPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Button fx:id="bookButton" mnemonicParsing="false" onAction="#bookReservationButtonAction" text="Book Reservation" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="550.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="10.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
    </children>
 </AnchorPane>

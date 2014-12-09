@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,10 +8,24 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pye.project.controller.CancelReservationController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="794.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pye.project.controller.CancelReservationController">
    <children>
-      <Label fx:id="cancelResLabel" layoutX="155.0" layoutY="111.0" text="Are you sure you would like to cancel your reservation?" />
-      <Button fx:id="cancelButton" layoutX="232.0" layoutY="160.0" mnemonicParsing="false" onAction="#cancelButtonAction" text="Yes, Please Cancel." />
-      <Button fx:id="noButton" layoutX="282.0" layoutY="200.0" mnemonicParsing="false" onAction="#noButtonAction" text="No" />
+      <VBox alignment="CENTER" layoutX="281.0" layoutY="108.0" AnchorPane.leftAnchor="20.0">
+         <children>
+            <Label fx:id="cancelResLabel" layoutX="137.0" layoutY="112.0" styleClass="label-header-body" text="Are you sure you would like to cancel your reservation?" textAlignment="CENTER" />
+            <HBox layoutX="232.0" layoutY="160.0" prefHeight="26.0" prefWidth="60.0" spacing="15.0">
+               <children>
+                  <Button fx:id="cancelButton" alignment="CENTER" layoutX="232.0" layoutY="160.0" mnemonicParsing="false" onAction="#cancelButtonAction" text="Yes" textAlignment="CENTER" />
+                  <Button fx:id="noButton" alignment="CENTER" layoutX="282.0" layoutY="200.0" mnemonicParsing="false" onAction="#noButtonAction" text="No" textAlignment="CENTER" />
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </VBox>
    </children>
 </AnchorPane>

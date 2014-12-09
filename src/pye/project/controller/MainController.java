@@ -10,6 +10,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import static java.util.Collections.list;
 import java.util.Date;
 import java.util.List;
 import static java.util.Optional.empty;
@@ -44,11 +45,11 @@ public class MainController implements Initializable {
     @FXML
     public ComboBox partysizeComboBox;
     @FXML
-    public ComboBox hrComboBox;
+    private ComboBox hrComboBox;
     @FXML
-    public ComboBox minComboBox;
+    private ComboBox minComboBox;
     @FXML
-    public ComboBox amorpmComboBox;
+    private ComboBox amorpmComboBox;
     @FXML
     public ComboBox cuisineComboBox;
     @FXML
@@ -66,6 +67,9 @@ public class MainController implements Initializable {
     public Reservation res = null;
 
     @FXML
+    public ArrayList<Restaurant> searchResults = null;
+
+    @FXML
     private void searchButtonAction(ActionEvent event) throws Exception {
         String city = locationSelected();
         String cuisine = cuisineSelected();
@@ -73,74 +77,97 @@ public class MainController implements Initializable {
         int price = priceratingSelected();
         int seats = partySizeSelected();
 
-        openResults(event);
-        List<Restaurant> list = SearchEngine.searchRestaurants(city, cuisine, time, price, seats);
-        {
-            for (Restaurant d : list);
-        }
-
         /**
-         * if (price == 0) { if (cuisine == "Select Cuisine") {
-         * System.out.println("price is zero and cusine is null 1,3,5");
-         * //worked } else { System.out.println("price is zero and cuisine is
-         * not null 1,2,3,5"); }
-         *
-         * } else { if (cuisine == "Select Cuisine") { System.out.println("price
-         * is nonzero and cusine is null 1,3,4,5"); //worked List <Restaurant>
-         * list = SearchEngine.searchRestaurants(city, time, price, seats);{ for
-         * (Restaurant d : list); } //System.out.println(list2.toString()); }
-         * else { System.out.println("price is nonzero and cusine is not null
-         * all else do 4(1, 2, 3, 4, 5"); //worked //List <Restaurant> list =
-         * SearchEngine.searchRestaurants(city, cuisine, time, price, seats);{
-         * //for (Restaurant d : list) ; }
+         * searchResults = SearchEngine.searchRestaurants(city, cuisine, time,
+         * price, seats); { for (Restaurant d : searchResults){
+         * System.out.println(d.getName()); }
          *
          * }
          */
-    }
-
-    @FXML
-    private void lookupButtonAction(ActionEvent event) throws Exception {
-        systemFeedbackLookupReservation.setText(null);
-        if (lastNameLookupText.getText() != null && !lastNameLookupText.getText().isEmpty()) {
-            String lastName = lastNameLookupText.getText();
-            System.out.println(lastName);
-            String ConfNumber = confirmationLookupText.getText();
-            int ConfirmationNumber = Integer.parseInt(ConfNumber);
-            System.out.println(ConfirmationNumber);
-
-            //TESTING:
-            res = ReservationManager.displayReservation(ConfirmationNumber, lastName);
-            System.out.println("From MainController.java");
-            System.out.println(res.ConfirmationNumber + ", " + res.CreatedBy.getLastName() + "," + res.CreatedBy.getFirstName() + "," + res.restaurant);
-            /**
-             * System.out.println("Confirmation Number: " +
-             * res.ConfirmationNumber + "/n"); if (res.restaurant == null) {
-             * res.restaurant.setName("Max's");
-             * System.out.println(res.restaurant.getName()); } else {
-             * System.out.println("Restaurant: " + res.restaurant.getName() +
-             * "/n"); }
-             *
-             * System.out.println("Location: "+res.restaurant.getCity());
-             *
-             * //if(res.restaurant.getPhoneNumber() == null){ //
-             * res.restaurant.setPhoneNumber("123-456-7891");
-             * System.out.println("Phone Number: 123-456-7891");
-             *
-             * System.out.println("Reservation Time: " + res.getReqTime() +
-             * "/n"); System.out.println("Reservation Date: " + res.getReqDate()
-             * + "/n"); System.out.println("Reservation made by: " +
-             * res.getCreatedBy().getFirstName() + " " +
-             * res.getCreatedBy().getLastName() + "/n");
-             */
-            openReservation(event);
-            //results.reservationContentPane.confLabel.setText(res.ConfirmationNumber);
-            //results.reservationContentPane.
-            // and so on
+        //System.out.println(searchresults.get(1));
+        if (price == 0) {
+            if (cuisine == "Select Cuisine") {
+                System.out.println("price is zero and cusine is null 1,3,5");
+                searchResults = (ArrayList<Restaurant>) SearchEngine.searchRestaurants(city, time, seats);
+                {
+                    for (Restaurant d : searchResults) {
+                        System.out.println(d.getName());
+                    }
+                }
+            }
 
         } else {
-            systemFeedbackLookupReservation.setText("Please fill provide Last Name and Confirmation Number.");
+            if (cuisine == "Select Cuisine") {
+                System.out.println("pric is nonzero and cusine is null 1,3,4,5"); //worked List 
+                searchResults = (ArrayList<Restaurant>) SearchEngine.searchRestaurants(city, time, price, seats);
+                {
+                    for (Restaurant d : searchResults) {
+                        System.out.println(d.getName());
+                    }
+                }
+            } else {
+                //System.out.println("price is nonzero and cusine is not null all else do 4(1, 2, 3, 4, 5");
+                searchResults = SearchEngine.searchRestaurants(city, cuisine, time, price, seats);
+                {
+                    for (Restaurant d : searchResults) {
+                        System.out.println(d.getName());
+                    }
+                }
+            } //worked 
         }
+        openResults(event);
+
     }
+
+
+
+@FXML
+        private void lookupButtonAction
+        (ActionEvent event) throws Exception {
+            systemFeedbackLookupReservation.setText(null);
+            if (lastNameLookupText.getText() != null && !lastNameLookupText.getText().isEmpty()) {
+                String lastName = lastNameLookupText.getText();
+                System.out.println(lastName);
+                String ConfNumber = confirmationLookupText.getText();
+                int ConfirmationNumber = Integer.parseInt(ConfNumber);
+                System.out.println(ConfirmationNumber);
+
+                //TESTING:
+                res = ReservationManager.displayReservation(ConfirmationNumber, lastName);
+                System.out.println("From MainController.java");
+                System.out.println(res.ConfirmationNumber + ", " + res.CreatedBy.getLastName() + "," + res.CreatedBy.getFirstName() + "," + res.restaurant);
+                /**
+                 * System.out.println("Confirmation Number: " +
+                 * res.ConfirmationNumber + "/n"); if (res.restaurant == null) {
+                 * res.restaurant.setName("Max's");
+                 * System.out.println(res.restaurant.getName()); } else {
+                 * System.out.println("Restaurant: " + res.restaurant.getName()
+                 * + "/n"); }
+                 *
+                 * System.out.println("Location: "+res.restaurant.getCity());
+                 *
+                 * //if(res.restaurant.getPhoneNumber() == null){ //
+                 * res.restaurant.setPhoneNumber("123-456-7891");
+                 * System.out.println("Phone Number: 123-456-7891");
+                 *
+                 * System.out.println("Reservation Time: " + res.getReqTime() +
+                 * "/n"); System.out.println("Reservation Date: " +
+                 * res.getReqDate() + "/n"); System.out.println("Reservation
+                 * made by: " + res.getCreatedBy().getFirstName() + " " +
+                 * res.getCreatedBy().getLastName() + "/n");
+                 */
+                openReservation(event);
+            //results.reservationContentPane.confLabel.setText(res.ConfirmationNumber);
+                //results.reservationContentPane.
+                // and so on
+
+            } else {
+                systemFeedbackLookupReservation.setText("Please fill provide Last Name and Confirmation Number.");
+            }
+        }
+
+
+    
 
     public void openResults(Event event) {
         try {
@@ -151,6 +178,11 @@ public class MainController implements Initializable {
             AnchorPane results = (AnchorPane) fxmlLoader.load(url.openStream());
             contentPane.getChildren().clear();
             contentPane.getChildren().add(results);
+
+            SearchResultController sCtl = (SearchResultController) fxmlLoader.getController();
+            if (sCtl != null) {
+                sCtl.setRestaurantListFromParent(searchResults);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -246,7 +278,7 @@ public class MainController implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+        public void initialize(URL url, ResourceBundle rb) {
         //ObservableList<String> locationlist = null;
         // TODO
         locationComboBox.getItems().addAll(
@@ -311,12 +343,12 @@ public class MainController implements Initializable {
         cuisineComboBox.setValue("Select Cuisine");
 
         priceratingComboBox.getItems().addAll(
-                "Select Price",
+                "0",
                 "$",
                 "$$",
                 "$$$",
                 "$$$$");
-        priceratingComboBox.setValue("Select Price");
+        priceratingComboBox.setValue("0");
 
     }
 

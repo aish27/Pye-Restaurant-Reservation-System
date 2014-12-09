@@ -65,6 +65,21 @@ public class ReservationManager
         return SearchEngine.searchRestaurants(city, cuisine, time, price, seats);
     }
     
+    public static List<Restaurant> searchDatabaseForRestaurants(String city, String cuisine, int time, int seats)
+    {
+        return SearchEngine.searchRestaurants(city, cuisine, time, seats);
+    }
+    
+    public static List<Restaurant> searchDatabaseForRestaurants(String city, int time, int price, int seats)
+    {
+        return SearchEngine.searchRestaurants(city, time, price, seats);
+    }
+    
+    public static List<Restaurant> searchDatabaseForRestaurants(String city, int time, int seats)
+    {
+        return SearchEngine.searchRestaurants(city, time, seats);
+    }
+    
     /** */
     public static void bookReservationInSystem(int reqTime, Date reqDate,int ConfirmationNumber, int PartySize, Person CreatedBy)
     {
@@ -85,6 +100,12 @@ public class ReservationManager
             Logger.getLogger(ReservationManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public static Person checkPerson(String email) {
+        Person p = null;
+        p = SearchEngine.checkPerson(email);
+        return p;
     }
     
     private void setSelectedRestaurant(Restaurant selected)

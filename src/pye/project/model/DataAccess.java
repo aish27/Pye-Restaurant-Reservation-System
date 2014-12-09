@@ -109,6 +109,40 @@ public class DataAccess {
             close(myStmt, myRs);
         }
     }
+    
+    /**
+	 * Converts Time object from database to an int.
+	 * Parse the object as string,
+	 * parse the string's first two as hour,
+	 * parse the string's second two as min.
+	 * 
+	 * 
+	 * @param reqTime - Time Object from database
+	 * @return hour*100 + min
+	 */
+	private int timeToInt(Time reqTime) 
+	{
+		String temp = reqTime.toString();
+		int hour = Integer.parseInt(temp.substring(0, 2));
+		int min = Integer.parseInt(temp.substring(3,4));
+
+		return (hour*10000 + min*100);
+	}
+
+	/**
+	 * Converts an integer of xxxx type to Time object
+	 * @param intTime of length 4
+	 * @return Time object (hh:mm)
+	 */
+
+	private Time intToTime(int intTime)
+	{
+		int hour = intTime / 10000;
+		int min = intTime % 10000;
+		@SuppressWarnings("deprecation")
+		Time t = new Time(hour, min, 0);
+		return t;
+	}
 
     /**
      * Adds a reservation object to the database
@@ -184,7 +218,7 @@ public class DataAccess {
         int conf = myRs.getInt("confirmation");
         int RestaurantID = myRs.getInt("RestaurantID");
 
-        int intTime = TimeToInt(reqTime);
+        int intTime = timeToInt(reqTime);
 
         Person CreatedBy = getPerson(PersonID);
         Restaurant restaurant = getRestaurant(RestaurantID);
@@ -194,155 +228,199 @@ public class DataAccess {
         return tempReservation;
     }
 
-    /**
-     * Search for the restaurant based on the given parameters. Since giving an
-     * empty value to database creates problem, we check if the values are empty
-     * before sending them to the database. For empty values, we either use
-     * wildcards or give a default value.
-     *
-     * @param reqLocation
-     * @param reqCuisine
-     * @param reqTime
-     * @param reqPprice
-     * @param reqSeats
-     * @return List of Restaurants found
-     * @throws Exception
-     */
-    /**
-     * public ArrayList<Restaurant> searchRestaurants(String reqLocation, String
-     * reqCuisine, int reqTime, int reqPprice, int reqSeats) throws Exception {
-     * ArrayList<Restaurant> list = new ArrayList<>();
-     *
-     * PreparedStatement myStmt = null; ResultSet myRs = null;
-     *
-     * //check for any empty or null values before sending it to database if
-     * (reqLocation.length() == 0) { reqLocation += "%"; } if
-     * (reqCuisine.length() == 0) { reqCuisine += "%"; } if (reqTime == 0) {
-     * reqTime += 200000;	// set default for 8PM } try {
-     *
-     * myStmt = myConn.prepareStatement("select * from restaurants where " +
-     * "LocationCity like ? AND " + "cuisine like ? AND " + "openTime <= ? AND CloseTime
-     * >= ? AND " + "price like ? AND " + "seats >= ?");
-     *
-     *
-     * myStmt.setString(1, reqLocation); myStmt.setString(2, reqCuisine);
-     * myStmt.setInt(3, reqTime); myStmt.setInt(4, reqTime); myStmt.setInt(5,
-     * reqPprice); myStmt.setInt(6, reqSeats); myRs = myStmt.executeQuery();
-     *
-     * while (myRs.next()) { Restaurant tempRestaurant =
-     * convertRowToRestaurant(myRs); list.add(tempRestaurant); }
-     *
-     * return list; } finally { close(myStmt, myRs); }
-    }
-     */
-    /**public ArrayList<Restaurant> searchRestaurants(String reqLocation, int reqTime, int reqSeats) throws SQLException {
-        ArrayList<Restaurant> list = new ArrayList<>();
-
-        PreparedStatement myStmt = null;
-        ResultSet myRs = null;
-
-        if (reqTime == 0) {
-            reqTime += 200000;				// set default for 8PM
-        }
-        try {
-
-            myStmt = myConn.prepareStatement("select * from restaurants where "
-                    + "LocationCity like ? AND "
-                    + "cuisine like ? AND "
-                    + "openTime <= ? AND CloseTime >= ? AND "
-                    + "price like ? AND "
-                    + "seats >= ?");
-
-            myStmt.setString(1, reqLocation);
-            myStmt.setInt(2, reqTime);
-            myStmt.setInt(3, reqSeats);
-            myRs = myStmt.executeQuery();
-
-            while (myRs.next()) {
-                Restaurant tempRestaurant = convertRowToRestaurant(myRs);
-                list.add(tempRestaurant);
-            }
-
-            return list;
-        } finally {
-
-            close(myStmt, myRs);
-        }
-
-    }*/
     
+	public ArrayList<Restaurant> searchRestaurants(String reqLocation, String reqCuisine, int reqTime,
+			int reqPrice, int reqSeats) throws Exception {
+		ArrayList<Restaurant> list = new ArrayList<>();
 
-    public ArrayList<Restaurant> searchRestaurants(String reqLocation, String reqCuisine, int reqTime, int reqPprice, int reqSeats) throws SQLException {
-        ArrayList<Restaurant> list = new ArrayList<>();
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
 
-        PreparedStatement myStmt = null;
-        ResultSet myRs = null;
+		//check for any empty or null values before sending it to database
+		if (reqLocation.length() == 0)
+			reqLocation += "%";
+		if (reqCuisine.length() == 0)
+			reqCuisine += "%";
+		if (reqTime == 0)
+			reqTime += 200000;				// set default for 8PM
 
-        if (reqTime == 0) {
-            reqTime += 200000;				// set default for 8PM
-        }
-        try {
+		try {
+			myStmt = myConn.prepareStatement("select * from restaurants where "
+					+ "LocationCity like ? AND "
+					+ "cuisine like ? AND "
+					+ "openTime <= ? AND CloseTime >= ? AND "
+					+ "price >= ? AND "
+					+ "seats >= ?");
 
-            myStmt = myConn.prepareStatement("select * from restaurants where "
-                    + "LocationCity like ? AND "
-                    + "cuisine like ? AND "
-                    + "openTime <= ? AND CloseTime >= ? AND "
-                    + "price like ? AND "
-                    + "seats >= ?");
-            
-            myStmt.setString(1,reqLocation);
-            myStmt.setString(2,reqCuisine);
-            myStmt.setInt(3, reqTime);
-            myStmt.setInt(4,reqTime);
-            myStmt.setInt(5,reqPprice);
-            myStmt.setInt(6,reqSeats);
-            System.out.println(myStmt);
-            myRs = myStmt.executeQuery();
+			myStmt.setString(1, reqLocation);
+			myStmt.setString(2, reqCuisine);
+			myStmt.setInt(3, reqTime);
+			myStmt.setInt(4, reqTime);
+			myStmt.setInt(5, reqPrice);
+			myStmt.setInt(6, reqSeats);
+			myRs = myStmt.executeQuery();
 
-            while (myRs.next()) {
-                Restaurant tempRestaurant = convertRowToRestaurant(myRs);
-                list.add(tempRestaurant);
-            }
+			while (myRs.next()) {
+				Restaurant tempRestaurant = convertRowToRestaurant(myRs);
+				list.add(tempRestaurant);
+			}
 
-            return list;
-        } finally {
+			return list;
+		}
+		finally {
+			close(myStmt, myRs);
+		}
+	}
+	/**
+	 * Search for the restaurant based on the given parameters.
+	 * Since giving an empty value to database creates problem, we check 
+	 * if the values are empty before sending them to the database. 
+	 * For empty values, we either use wildcards or give a default value. 
+	 * 
+	 * @param reqLocation
+	 * @param reqCuisine
+	 * @param reqTime
+	 * @param reqSeats
+	 * @return
+	 * @throws Exception
+	 */
+	public ArrayList<Restaurant> searchRestaurants(String reqLocation, String reqCuisine, int reqTime,
+			int reqSeats) throws Exception {
+		ArrayList<Restaurant> list = new ArrayList<>();
 
-            close(myStmt, myRs);
-        }
-    }
-    
-    
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
 
-    /**
-     * Converts Time object from database to an int. Parse the object as string,
-     * parse the string's first two as hour, parse the string's second two as
-     * min.
-     *
-     *
-     * @param reqTime - Time Object from database
-     * @return hour*100 + min
-     */
-    private int TimeToInt(Time reqTime) {
-        String temp = reqTime.toString();
-        int hour = Integer.parseInt(temp.substring(0, 2));
-        int min = Integer.parseInt(temp.substring(3, 4));
+		//check for any empty or null values before sending it to database
+		if (reqLocation.length() == 0)
+			reqLocation += "%";
+		if (reqCuisine.length() == 0)
+			reqCuisine += "%";
+		if (reqTime == 0)
+			reqTime += 200000;				// set default for 8PM
 
-        return (hour * 10000 + min * 100);
-    }
+		try {
+			myStmt = myConn.prepareStatement("select * from restaurants where "
+					+ "LocationCity like ? AND "
+					+ "cuisine like ? AND "
+					+ "openTime <= ? AND CloseTime >= ? AND "
+					+ "seats >= ?");
 
-    /**
-     * Converts an integer of xxxx type to Time object
-     *
-     * @param intTime of length 4
-     * @return Time object (hh:mm)
-     */
-    private Time intToTime(int intTime) {
-        int hour = intTime / 10000;
-        int min = intTime % 10000;
-        @SuppressWarnings("deprecation")
-        Time t = new Time(hour, min, 0);
-        return t;
-    }
+			myStmt.setString(1, reqLocation);
+			myStmt.setString(2, reqCuisine);
+			myStmt.setInt(3, reqTime);
+			myStmt.setInt(4, reqTime);
+			myStmt.setInt(5, reqSeats);
+			myRs = myStmt.executeQuery();
+
+			while (myRs.next()) {
+				Restaurant tempRestaurant = convertRowToRestaurant(myRs);
+				list.add(tempRestaurant);
+			}
+
+			return list;
+		}
+		finally {
+			close(myStmt, myRs);
+		}
+	}
+	/**
+	 * Search for the restaurant based on the given parameters.
+	 * Since giving an empty value to database creates problem, we check 
+	 * if the values are empty before sending them to the database. 
+	 * For empty values, we either use wildcards or give a default value. 
+	 * @param reqLocation
+	 * @param reqTime
+	 * @param reqPrice
+	 * @param reqSeats
+	 * @return
+	 * @throws Exception
+	 */
+	public ArrayList<Restaurant> searchRestaurants(String reqLocation, int reqTime,
+			int reqPrice, int reqSeats) throws Exception {
+		ArrayList<Restaurant> list = new ArrayList<>();
+
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
+
+		//check for any empty or null values before sending it to database
+		if (reqLocation.length() == 0)
+			reqLocation += "%";
+		if (reqTime == 0)
+			reqTime += 200000;				// set default for 8PM
+
+		try {
+			myStmt = myConn.prepareStatement("select * from restaurants where "
+					+ "LocationCity like ? AND "
+					+ "openTime <= ? AND CloseTime >= ? AND "
+					+ "price >= ? AND "
+					+ "seats >= ?");
+
+			myStmt.setString(1, reqLocation);
+			myStmt.setInt(2, reqTime);
+			myStmt.setInt(3, reqTime);
+			myStmt.setInt(4, reqPrice);
+			myStmt.setInt(5, reqSeats);
+			myRs = myStmt.executeQuery();
+
+			while (myRs.next()) {
+				Restaurant tempRestaurant = convertRowToRestaurant(myRs);
+				list.add(tempRestaurant);
+			}
+
+			return list;
+		}
+		finally {
+			close(myStmt, myRs);
+		}
+	}
+	/**
+	 * Search for the restaurant based on the given parameters.
+	 * Since giving an empty value to database creates problem, we check 
+	 * if the values are empty before sending them to the database. 
+	 * For empty values, we either use wildcards or give a default value. 
+	 * @param reqLocation
+	 * @param reqTime
+	 * @param reqSeats
+	 * @return
+	 * @throws Exception
+	 */
+	public ArrayList<Restaurant> searchRestaurants(String reqLocation, int reqTime
+			,int reqSeats) throws Exception {
+		ArrayList<Restaurant> list = new ArrayList<>();
+
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
+
+		//check for any empty or null values before sending it to database
+		if (reqLocation.length() == 0)
+			reqLocation += "%";
+		if (reqTime == 0)
+			reqTime += 200000;				// set default for 8PM
+
+		try {
+			myStmt = myConn.prepareStatement("select * from restaurants where "
+					+ "LocationCity like ? AND "
+					+ "openTime <= ? AND CloseTime >= ? AND "
+					+ "seats >= ?");
+
+			myStmt.setString(1, reqLocation);
+			myStmt.setInt(2, reqTime);
+			myStmt.setInt(3, reqTime);
+			myStmt.setInt(4, reqSeats);
+			myRs = myStmt.executeQuery();
+
+			while (myRs.next()) {
+				Restaurant tempRestaurant = convertRowToRestaurant(myRs);
+				list.add(tempRestaurant);
+			}
+
+			return list;
+		}
+		finally {
+			close(myStmt, myRs);
+		}
+	}
 
     /**
      * Get a row matching a personID from database
@@ -396,8 +474,8 @@ public class DataAccess {
             city = myRs.getString("LocationCity");
             state = myRs.getString("LocationState");
             cuisine = myRs.getString("cuisine");
-            startTime = TimeToInt(myRs.getTime("OpenTime"));
-            endTime = TimeToInt(myRs.getTime("CloseTime"));
+            startTime = timeToInt(myRs.getTime("OpenTime"));
+            endTime = timeToInt(myRs.getTime("CloseTime"));
             email = myRs.getString("email");
             price = myRs.getInt("price");
             seats = myRs.getInt("seats");
@@ -530,6 +608,45 @@ public class DataAccess {
 
     public Reservation getReservation(int i) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    Person checkPersonbyEmail(String email) {
+        
+        Person tempPerson = null;
+        try {
+            PreparedStatement myStmt = null;
+            ResultSet myRs = null;
+            String lastName, firstName;
+
+            try {
+                myStmt = myConn.prepareStatement("select * from person where email = ?");
+            } catch (SQLException ex) {
+                Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                myStmt.setString(1, email);
+            } catch (SQLException ex) {
+                Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                myRs = myStmt.executeQuery();
+            } catch (SQLException ex) {
+                Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            while (myRs.next()) {
+                lastName = myRs.getString("last_name");
+                firstName = myRs.getString("first_name");
+                email = myRs.getString("email");
+                String pId = myRs.getString("PersonID");
+
+                tempPerson = new Person(Integer.parseInt(pId), lastName, firstName, email);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DataAccess.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return tempPerson;
     }
 
     /**
