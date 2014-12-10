@@ -2,50 +2,93 @@ package pye.project.model;
 
 import java.util.Date;
 
-
-
-/** */
+/**This particular class represents a reservation.
+ * 
+ * @author Gaurav Desai, Aishwarya Venketeswaran, Aauysh Neupane and Ambrin Ali 
+ */
 public class Reservation
 {
-    /** */
+
+    /**Represents the reservation id of the reservation in the database.
+     * 
+     */
     public int id;
-    
-    /** */
+
+    /** Represents the confirmation status of the reservation.
+     *    
+     */
     public Boolean Confirmed;
-    
-    /** */
+
+    /**Represents the time of this reservation. 
+     *      
+     */
     private int reqTime;
-    
-    /** */
+
+    /**Represents the date of this reservation. 
+     *      
+     */
     private Date reqDate;
-    
-    /** */
+
+    /**Represents the confirmation number assigned to this reservation. 
+     *      
+     */
     public int ConfirmationNumber;
-    
-    /** */
+
+    /**Represents the party size of this reservation. 
+     *      
+     */
     private int PartySize;
-    
-    /** */
+
+    /**Represents the person who created this reservation. 
+     *     
+     */
     public Person CreatedBy;
-    
+
+    /** Represents the restaurant in which this reservation has been made. 
+     * 
+     */
     public Restaurant restaurant;
 
-    public Reservation(int id, Boolean Confirmed, int reqTime, Date reqDate, int ConfirmationNumber, int PartySize, Person CreatedBy, Restaurant restaurant) {
+   /**Constructor for reservation.
+     * 
+     * @param id the reservation id of the reservation
+     * @param confirmed the confirmation status 
+     * @param reqTime the time of the reservation as an integer
+     * @param reqDate the date of the reservation
+     * @param ConfirmationNumber the confirmation number of this reservation
+     * @param restaurant the restaurant in which the reservation is made
+     * @param PartySize the party size of the reservation
+     * @param CreatedBy the person who created the reservation
+     */
+    public Reservation(int id, Boolean confirmed, int reqTime, Date reqDate, int ConfirmationNumber, int PartySize, Person CreatedBy, Restaurant restaurant)
+    {
         this.id = id;
-        this.Confirmed = Confirmed;
+        this.Confirmed = confirmed;
         this.reqTime = reqTime;
         this.reqDate = reqDate;
         this.ConfirmationNumber = ConfirmationNumber;
         this.PartySize = PartySize;
         this.CreatedBy = CreatedBy;
         this.restaurant = restaurant;
-        
+
         //add it to the database
     }
 
-    Reservation(int id, boolean b, int reqTime, Date reqDate, int ConfirmationNumber, int PartySize, Person CreatedBy) {
-        this.id = id;
-        this.Confirmed = b;
+    /**Constructor for reservation.
+     * 
+     * @param ReservationID the reservation id of the reservation
+     * @param confirmed the confirmation status 
+     * @param intTime the time of the reservation as an integer
+     * @param reqDate the date of the reservation
+     * @param confirmationNumber the confirmation number of this reservation
+     * @param restaurant the restaurant in which the reservation is made
+     * @param partySize the party size of the reservation
+     * @param CreatedBy the person who created the reservation
+     */
+    Reservation(int ReservationID, boolean confirmed, int reqTime, Date reqDate, int ConfirmationNumber, int PartySize, Person CreatedBy)
+    {
+        this.id = ReservationID;
+        this.Confirmed = confirmed;
         this.reqTime = reqTime;
         this.reqDate = reqDate;
         this.ConfirmationNumber = ConfirmationNumber;
@@ -54,97 +97,121 @@ public class Reservation
         //this.restaurant = restaurant;
     }
 
-    public Reservation(int ReservationID, boolean b, int intTime, java.sql.Date reqDate, int conf, int party, Person CreatedBy, Restaurant restaurant) {
+    /**Constructor for reservation.
+     * 
+     * @param ReservationID the reservation id of the reservation
+     * @param confirmed the confirmation status 
+     * @param intTime the time of the reservation as an integer
+     * @param reqDate the date of the reservation
+     * @param confirmationNumber the confirmation number of this reservation
+     * @param restaurant the restaurant in which the reservation is made
+     * @param partySize the party size of the reservation
+     * @param CreatedBy the person who created the reservation
+     */
+    public Reservation(int ReservationID, boolean confirmed, int intTime, java.sql.Date reqDate, int confirmationNumber, int partySize, Person CreatedBy, Restaurant restaurant)
+    {
         this.id = ReservationID;
-        this.Confirmed = b;
+        this.Confirmed = confirmed;
         this.reqTime = intTime;
         this.reqDate = reqDate;
-        this.ConfirmationNumber = conf;
-        this.PartySize = PartySize;
+        this.ConfirmationNumber = confirmationNumber;
+        this.PartySize = partySize;
         this.CreatedBy = CreatedBy;
         this.restaurant = restaurant;
     }
-        
-    /** */
-    public void setReservation(Boolean Confirmed, int reqTime, Date reqDate, int RestaurantId, int ConfirmationNumber, int PartySize, Person CreatedBy)
-    {
-    //change the object as required.
-    // save the change into the database
-    }
-    
-    /** */
+
+
+    /**Confirms the reservation. 
+     * 
+     */
     public void confirmReservation()
     {
         this.Confirmed = true;
     }
-    
-    /** */
+
+    /**Returns the confirmation status. 
+     * 
+     * @return the Confirmed status 
+     */
     public Boolean getConfirmationStatus()
     {
         return Confirmed;
     }
-    
-    /** */
+
+
+    /**Returns the Person who created the reservation
+     * 
+     * @return the Person object that created the reservation.
+     */
     public Person getCreatedPerson()
     {
-        return  CreatedBy;
+        return CreatedBy;
     }
 
-    /**
+
+    /**Retursn the party size of this reservation.
+     * 
      * @return the PartySize
      */
-    public int getPartySize() {
+    public int getPartySize()
+    {
         return PartySize;
     }
 
-    /**
+    /**Returns the time of this reservation.
+     * 
      * @return the reqTime
      */
-    public int getReqTime() {
+    public int getReqTime()
+    {
         return reqTime;
     }
 
-    /**
+    /** Returns the date of this reservation.
+     * 
      * @return the reqDate
      */
-    public Date getReqDate() {
+    public Date getReqDate()
+    {
         return reqDate;
     }
-    
-    public void setPartySize(int newPartySize) {
+
+    /** Sets the party size of this reservation.
+     * 
+     * @param newPartySize the party size
+     */
+    public void setPartySize(int newPartySize)
+    {
         PartySize = newPartySize;
-        
-        //change this in the database
     }
 
-    /**
+    /** Sets the time of this reservation.
+     * 
      * @param reqTime the reqTime to set
      */
-    public void setReqTime(int reqTime) {
+    public void setReqTime(int reqTime)
+    {
         this.reqTime = reqTime;
     }
 
-    /**
+    /** Sets the date of this reservation.
+     * 
      * @param reqDate the reqDate to set
      */
-    public void setReqDate(Date reqDate) {
+    public void setReqDate(Date reqDate)
+    {
         this.reqDate = reqDate;
     }
-    
-    /**
+
+    /** Converts the reservation into a String.
      * 
-     * @return Person object
+     * @return String reservation
      */
-    public Person getCreatedBy()
+    @Override
+    public String toString()
     {
-    	return CreatedBy;
+        return String.format("Reservation [id=%d, Requested Time=%d, Requested Date=%s, Conf #=%d, Party size=%d, Created By=%s]",
+                        id, reqTime, reqDate, ConfirmationNumber, PartySize, CreatedBy.getFirstName());
     }
-    
-	@Override
-	public String toString() {
-		return String
-				.format("Reservation [id=%d, Requested Time=%d, Requested Date=%s, Conf #=%d, Party size=%d, Created By=%s]",
-						id, reqTime, reqDate, ConfirmationNumber, PartySize, CreatedBy.getFirstName());
-	}
 
 }
