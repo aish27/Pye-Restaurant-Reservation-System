@@ -279,6 +279,7 @@ public class DataAccess {
 
 		PreparedStatement myStmt = null;
 		ResultSet myRs = null;
+		int defaultTime = 200000;
 
 		//check for any empty or null values before sending it to database
 		if (reqLocation.length() == 0)
@@ -286,7 +287,7 @@ public class DataAccess {
 		if (reqCuisine.length() == 0)
 			reqCuisine += "%";
 		if (reqTime == 0)
-			reqTime += 200000;				// set default for 8PM
+			reqTime += defaultTime;				// set default for 8PM
 
 		try {
 			myStmt = myConn.prepareStatement("select * from restaurants where "
@@ -333,12 +334,13 @@ public class DataAccess {
 
 		PreparedStatement myStmt = null;
 		ResultSet myRs = null;
+		int defaultTime = 200000;
 
 		//check for any empty or null values before sending it to database
 		if (reqLocation.length() == 0)
 			reqLocation += "%";
 		if (reqTime == 0)
-			reqTime += 200000;				// set default for 8PM
+			reqTime += defaultTime;				// set default for 8PM
 
 		try {
 			myStmt = myConn.prepareStatement("select * from restaurants where "
@@ -383,12 +385,13 @@ public class DataAccess {
 
 		PreparedStatement myStmt = null;
 		ResultSet myRs = null;
+		int defaultTime = 20000;
 
 		//check for any empty or null values before sending it to database
 		if (reqLocation.length() == 0)
 			reqLocation += "%";
 		if (reqTime == 0)
-			reqTime += 200000;				// set default for 8PM
+			reqTime += defaultTime;				// set default for 8PM
 
 		try {
 			myStmt = myConn.prepareStatement("select * from restaurants where "
@@ -427,11 +430,13 @@ public class DataAccess {
 	 */
 	private int timeToInt(Time reqTime) 
 	{
+		int hourPlaceHolder = 10000;
+		int minPlaceHolder = 100;
 		String temp = reqTime.toString();
 		int hour = Integer.parseInt(temp.substring(0, 2));
 		int min = Integer.parseInt(temp.substring(3,4));
 
-		return (hour*10000 + min*100);
+		return (hour*hourPlaceHolder + min*minPlaceHolder);
 	}
 
 	/**
@@ -441,10 +446,13 @@ public class DataAccess {
 	 */
 	private Time intToTime(int intTime)
 	{
-		int hour = intTime / 10000;
-		int min = intTime % 10000;
+		int placeHolder = 10000;
+		int second = 0;
+		
+		int hour = intTime / placeHolder;
+		int min = intTime % placeHolder;
 		@SuppressWarnings("deprecation")
-		Time t = new Time(hour, min, 0);
+		Time t = new Time(hour, min, second);
 		return t;
 	}
 
@@ -715,6 +723,7 @@ public class DataAccess {
 		PreparedStatement myStmt = null;
 		boolean status = false;
 		int count;
+		int toNegative = -1;
 		Reservation toBeDeleted = searchReservation(lastName, confirmation);
 		try{
 			if (toBeDeleted != null)
@@ -723,7 +732,7 @@ public class DataAccess {
 				myStmt = myConn.prepareStatement(" UPDATE reservations"
 						+ " SET confirmation = ?"
 						+ " WHERE confirmation = ?");
-				myStmt.setInt(1, confirmation * -1);
+				myStmt.setInt(1, confirmation * toNegative);
 				myStmt.setInt(2, confirmation);
 				count = myStmt.executeUpdate();
 
