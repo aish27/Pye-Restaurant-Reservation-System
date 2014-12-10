@@ -9,7 +9,7 @@ import java.util.Properties;
 /**
  * This email sender uses Gmail's smtp to send email. 
  * The calling program needs to send (ArrayList, Restaurant obj) as arguments. 
- * @author Aayush
+ * @author Aayush Neupane
  *
  */
 public class EmailSender {
