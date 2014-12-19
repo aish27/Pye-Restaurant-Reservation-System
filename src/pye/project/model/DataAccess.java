@@ -92,7 +92,7 @@ public class DataAccess {
 	 * @throws Exception
 	 */
 
-	public Reservation searchReservation(String lastName, int conf)
+	public Reservation searchReservation(int conf) //removed string lastname param
 	{
 		Reservation tempReservation = null;
 		PreparedStatement myStmt = null;
@@ -111,13 +111,13 @@ public class DataAccess {
 				//tempReservation stays null if the conf # doesnt exist. return null.
 				if (tempReservation != null)
 				{
-					Person p = tempReservation.getCreatedPerson();
-					System.out.println(p.toString());
-					if (lastName.length() == 0 || lastName == null)
-						return tempReservation; //actual value
-					else if ((tempReservation.getCreatedPerson().getLastName()).equalsIgnoreCase(lastName))
-						return tempReservation; //actual value
-					else
+//					Person p = tempReservation.getCreatedPerson();
+//					System.out.println(p.toString());
+////					if (lastName.length() == 0 || lastName == null)
+////						return tempReservation; //actual value
+//					else if ((tempReservation.getCreatedPerson().getLastName()).equalsIgnoreCase(lastName))
+//						return tempReservation; //actual value
+//					else
 						return tempReservation; //null value
 				}
 				else return tempReservation; //null
@@ -718,13 +718,13 @@ public class DataAccess {
 	 * @return true if deleted, false if not. 
 	 * @throws Exception
 	 */
-	boolean deleteReservation(String lastName, int confirmation)
+	boolean deleteReservation(int confirmation)
 	{
 		PreparedStatement myStmt = null;
 		boolean status = false;
 		int count;
 		int toNegative = -1;
-		Reservation toBeDeleted = searchReservation(lastName, confirmation);
+		Reservation toBeDeleted = searchReservation(confirmation);
 		try{
 			if (toBeDeleted != null)
 			{
@@ -809,5 +809,30 @@ public class DataAccess {
 	 */
 	private java.sql.Date javaToSqlDate(java.util.Date date) {
 		return new java.sql.Date(date.getTime());
+	}
+
+	public Person checkPersonbyEmail(String email) {
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
+		Person tempPerson = null;
+		String lastName, firstName;
+		int PersonID;
+		try{
+			myStmt = myConn.prepareStatement("select * from person where email = ?");
+			myStmt.setString(1, email);
+			myRs = myStmt.executeQuery();
+
+			while (myRs.next()) {
+				PersonID = myRs.getInt("PersonID");
+				lastName = myRs.getString("last_name");
+				firstName = myRs.getString("first_name");
+				email = myRs.getString("email");
+
+				tempPerson = new Person(PersonID, lastName, firstName, email);
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return tempPerson;
 	}
 }

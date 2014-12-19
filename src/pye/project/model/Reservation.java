@@ -214,4 +214,9 @@ public class Reservation
                         id, reqTime, reqDate, ConfirmationNumber, PartySize, CreatedBy.getFirstName());
     }
 
+	public int getId() {
+		// TODO Auto-generated method stub
+		return id;
+	}
+
 }

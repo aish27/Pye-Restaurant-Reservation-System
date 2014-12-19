@@ -20,7 +20,7 @@ public class SearchEngine {
         }
         Reservation res = null;
         try {
-            res = dao.searchReservation(ConfirmationNumber, lastName);
+            res = dao.searchReservation(ConfirmationNumber);
         } catch (Exception ex) {
             Logger.getLogger(SearchEngine.class.getName()).log(Level.SEVERE, null, ex);
         }

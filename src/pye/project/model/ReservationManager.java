@@ -41,16 +41,17 @@ public class ReservationManager
      * @param totalNumberOfSeats the total number of seats in the restaurant
      * @param managerEmail the email address of the manager
      */
-    public static void addRestaurant(int phoneNumber, String city, String state, int zipcode, int openTime, int closeTime, String cuisine, String name, int price, int totalNumberOfSeats, String managerEmail)
+     
+    public static void addRestaurant(String phoneNumber, String city, String state, int zipcode, int openTime, int closeTime, String cuisine, String name, int price, int totalNumberOfSeats, String managerEmail)
     {
-        Restaurant aNewRestaurant = new Restaurant(id++, phoneNumber, city, state, zipcode, openTime, closeTime, cuisine, name, price, totalNumberOfSeats, managerEmail);
+        Restaurant aNewRestaurant = new Restaurant(id++, phoneNumber, city, openTime, closeTime, cuisine, name, price, totalNumberOfSeats, managerEmail);
     }
 
     /**
      * Updates a restaurant's information to the database.
      *
      * @param id the restaurant's id in the database
-     * @param phoneNumber the phone number of the restaurant
+     * @param phoneNumber the phone numberof the restaurant
      * @param city the city in which the restaurant is located
      * @param state the state in which the restaurant is located
      * @param zipcode the zipcode of the restaurant
@@ -62,28 +63,20 @@ public class ReservationManager
      * @param totalNumberOfSeats the total number of seats in the restaurant
      * @param managerEmail the email address of the manager
      */
-    public static String updateRestaurantInformation(int id, int phoneNumber, String city, String state, int zipcode, int startTime, int endTime, String cuisine, String name, int price, int totalNumberOfSeats, String managerEmail, String restaurantName)
+    public static String updateRestaurantInformation(int id, String phoneNumber, String city, int startTime, int endTime, String cuisine, String name, int price, int totalNumberOfSeats, String managerEmail, String restaurantName)
     {
         Restaurant toBeChanged = SearchEngine.searchRestaurant(id);
         if (toBeChanged == null)
         {
             return "Restaurant not found";
         }
-        if (phoneNumber == -1)
+        if (phoneNumber == null)
         {
             phoneNumber = toBeChanged.getPhoneNumber();
         }
         if (city == null)
         {
             city = toBeChanged.getCity();
-        }
-        if (state == null)
-        {
-            state = toBeChanged.getState();
-        }
-        if (zipcode == -1)
-        {
-            zipcode = toBeChanged.getZipcode();
         }
         if (startTime == -1)
         {
@@ -105,16 +98,17 @@ public class ReservationManager
         {
             price = toBeChanged.getPrice();
         }
-        if (totalNumberOfSeats == -1)
-        {
-            totalNumberOfSeats = toBeChanged.getPhoneNumber();
-        }
+//        if (totalNumberOfSeats == -1)
+//        {
+//            totalNumberOfSeats = toBeChanged.getPhoneNumber();
+//        }
         if (managerEmail == null)
         {
             managerEmail = toBeChanged.getManagerEmailAddress();
         }
-
-        toBeChanged.updateRestaurant(phoneNumber, city, state, zipcode, startTime, endTime, cuisine, name, price, totalNumberOfSeats, managerEmail);
+      
+        
+        toBeChanged.updateRestaurant(phoneNumber, city, startTime, endTime, cuisine, name, price, totalNumberOfSeats, managerEmail);
         return "Changes have been made to the restaurant's profile";
     }
 
@@ -197,13 +191,14 @@ public class ReservationManager
     public static void bookReservationInSystem(int reqTime, Date reqDate, int ConfirmationNumber, int PartySize, Person CreatedBy)
     {
         Reservation aReservation = new Reservation(id++, false, reqTime, reqDate, ConfirmationNumber, PartySize, CreatedBy);
-        RestaurantCalendar someCalender = selectedRestaurant.getThisRestaurantSchedule();
-        someCalender.addReservation(aReservation);
+   //     RestaurantCalendar someCalender = selectedRestaurant.getThisRestaurantSchedule();
+    //    someCalender.addReservation(aReservation);
         //Find the restaurant manager's email address
         String ManagerEmail = selectedRestaurant.getManagerEmailAddress();
         //send a confirmation to the restaurant manager
-        //EmailSender.sendMail(null, ManagerEmail, "Manager"); 
-        selectedRestaurant.getThisRestaurantSchedule().reserveSeats(reqDate, reqTime, PartySize);
+        EmailSender email = new EmailSender();
+        email.sendMail(null, ManagerEmail, "Manager", aReservation); 
+   //     selectedRestaurant.getThisRestaurantSchedule().reserveSeats(reqDate, reqTime, PartySize);
     }
 
     /**
@@ -290,11 +285,11 @@ public class ReservationManager
         }
         if (theReservation != null)
         {
-            RestaurantCalendar someCalender = selectedRestaurant.getThisRestaurantSchedule();
-            if (reqTime == -1)
-            {
-                reqTime = theReservation.getReqTime();
-            }
+//            RestaurantCalendar someCalender = selectedRestaurant.getThisRestaurantSchedule();
+//            if (reqTime == -1)
+//            {
+//                reqTime = theReservation.getReqTime();
+//            }
             if (reqDate == null)
             {
                 reqDate = theReservation.getReqDate();
@@ -303,7 +298,7 @@ public class ReservationManager
             {
                 partySize = theReservation.getPartySize();
             }
-            someCalender.updateReservation(theReservation, reqTime, reqDate, partySize);
+   //         someCalender.updateReservation(theReservation, reqTime, reqDate, partySize);
             return "The requested reservation has been cancelled.";
         } else
         {
@@ -324,8 +319,8 @@ public class ReservationManager
         Reservation theReservation = SearchEngine.searchReservation(ConfirmationNumber);
         if (theReservation != null)
         {
-            RestaurantCalendar someCalender = selectedRestaurant.getThisRestaurantSchedule();
-            someCalender.deleteReservation(theReservation);
+   //         RestaurantCalendar someCalender = selectedRestaurant.getThisRestaurantSchedule();
+   //         someCalender.deleteReservation(theReservation);
             //theReservation.
             return "The requested reservation has been cancelled.";
         } else
